@@ -7,6 +7,16 @@ CREATE TABLE articles (
     creator_id INT NOT NULL
 );
 
+CREATE TABLE comments (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  creator_id INT NOT NULL,
+  article_id INT NOT NULL,
+  comment_id INT DEFAULT NULL,
+  body TEXT NOT NULL,
+  created DATETIME DEFAULT NULL,
+  modified DATETIME DEFAULT NULL
+);
+
 CREATE TABLE users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50),

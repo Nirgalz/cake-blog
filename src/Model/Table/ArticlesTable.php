@@ -49,6 +49,10 @@ class ArticlesTable extends Table
             'targetForeignKey' => 'tag_id',
             'joinTable' => 'articles_tags'
         ]);
+
+        $this->hasMany('Comments', [
+            'foreignKey' => 'article_id'
+        ]);
     }
 
     public function isOwnedBy($articleId, $userId)
