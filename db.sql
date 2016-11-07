@@ -1,0 +1,29 @@
+CREATE TABLE articles (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL ,
+    body TEXT NOT NULL,
+    created DATETIME DEFAULT NULL,
+    modified DATETIME DEFAULT NULL,
+    creator_id INT NOT NULL
+);
+
+CREATE TABLE users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50),
+  mail VARCHAR(255) NOT NULL ,
+  password VARCHAR(255),
+  role VARCHAR(20),
+  created DATETIME DEFAULT NULL,
+  modified DATETIME DEFAULT NULL
+);
+
+CREATE TABLE tags (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE articles_tags (
+  tag_id INT NOT NULL ,
+  article_id INT NOT NULL,
+  PRIMARY KEY (tag_id, article_id)
+)
