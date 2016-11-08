@@ -11,8 +11,8 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
  * @property \Cake\ORM\Association\BelongsTo $Articles
- * @property \Cake\ORM\Association\BelongsTo $Comments
- * @property \Cake\ORM\Association\HasMany $Comments
+ * @property \Cake\ORM\Association\BelongsTo $ParentComments
+ * @property \Cake\ORM\Association\HasMany $SubComments
  *
  * @method \App\Model\Entity\Comment get($primaryKey, $options = [])
  * @method \App\Model\Entity\Comment newEntity($data = null, array $options = [])
@@ -51,10 +51,12 @@ class CommentsTable extends Table
             'foreignKey' => 'article_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Comments', [
+        $this->belongsTo('ParentComments', [
+            'className' => 'Comments',
             'foreignKey' => 'comment_id'
         ]);
-        $this->hasMany('Comments', [
+        $this->hasMany('SubComments', [
+            'className' => 'Comments',
             'foreignKey' => 'comment_id'
         ]);
     }
@@ -78,6 +80,11 @@ class CommentsTable extends Table
         return $validator;
     }
 
+    public function isOwnedBy($commentId, $userId)
+    {
+        return $this->exists(['id' => $commentId, 'user_id' => $userId]);
+    }
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -89,7 +96,7 @@ class CommentsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['article_id'], 'Articles'));
-        $rules->add($rules->existsIn(['comment_id'], 'Comments'));
+
 
         return $rules;
     }

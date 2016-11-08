@@ -27,7 +27,7 @@ class ArticlesController extends AppController
             }
         }
 
-
+        return parent::isAuthorized($user);
     }
 
     /**
