@@ -13,6 +13,34 @@ use Cake\Event\Event;
 class UsersController extends AppController
 {
 
+    public function isAuthorized($user)
+    {
+
+
+        // All users can register
+        if ($this->request->action === 'register') {
+            return true;
+        }
+
+        if ($this->request->action === 'add') {
+            if ($loggedUser->role === 'admin') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        // The owner of an article can edit and delete it
+        if (in_array($this->request->action, ['view', 'edit', 'delete'])) {
+            $userId = (int)$this->request->params['pass'][0];
+            if ($loggedUser->id === $userId) {
+                return true;
+            }
+        }
+
+
+        return parent::isAuthorized($user);
+    }
+
     public function login()
     {
         if ($this->request->is('post')) {
@@ -27,14 +55,9 @@ class UsersController extends AppController
 
     public function logout()
     {
-        return $this->redirect($this->Auth->logout());
+        return $this->redirect($this->referer());
     }
 
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        $this->Auth->allow('add');
-    }
 
     /**
      * Index method
@@ -76,6 +99,24 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            }
+        }
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+
+        public function register()
+    {
+        $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user->role = 'visitor';
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 

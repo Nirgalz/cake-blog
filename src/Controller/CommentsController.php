@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Comments Controller
@@ -10,6 +11,14 @@ use App\Controller\AppController;
  */
 class CommentsController extends AppController
 {
+
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['index', 'view', 'display']);
+
+        $this->set('loggedUser', $this->Auth->user());
+
+    }
 
     public function isAuthorized($user)
     {

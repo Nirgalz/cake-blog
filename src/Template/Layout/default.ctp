@@ -1,7 +1,5 @@
 <?php
 
-$logMenu = $this->cell('LogMenu');
-
 $cakeDescription = 'Blog';
 ?>
 <!DOCTYPE html>
@@ -54,7 +52,10 @@ $cakeDescription = 'Blog';
             <?php if (!isset($loggedUser)): ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <?= $this->Html->link('Connexion', ['controller' => 'Users', 'action' => 'login']) ?>
+                        <?= $this->Html->link('Connection', ['controller' => 'Users', 'action' => 'login']) ?>
+                    </li>
+                    <li>
+                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'])?>
                     </li>
                 </ul>
             <?php endif; ?>

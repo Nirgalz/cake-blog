@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+
 
 /**
  * Articles Controller
@@ -11,7 +13,7 @@ use App\Controller\AppController;
 class ArticlesController extends AppController
 {
 
-    public function isAuthorized($user)
+        public function isAuthorized($user)
     {
         // All registered users can add articles
         if ($this->request->action === 'add') {
