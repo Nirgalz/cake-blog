@@ -2,8 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
-
 
 /**
  * Articles Controller
@@ -13,7 +11,8 @@ use Cake\Event\Event;
 class ArticlesController extends AppController
 {
 
-        public function isAuthorized($user)
+
+    public function isAuthorized($user)
     {
         // All registered users can add articles
         if ($this->request->action === 'add') {
@@ -28,7 +27,7 @@ class ArticlesController extends AppController
             }
         }
 
-        return parent::isAuthorized($user);
+
     }
 
     /**
@@ -38,6 +37,9 @@ class ArticlesController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Users']
+        ];
         $articles = $this->paginate($this->Articles);
 
         $this->set(compact('articles'));
@@ -54,7 +56,7 @@ class ArticlesController extends AppController
     public function view($id = null)
     {
         $article = $this->Articles->get($id, [
-            'contain' => ['Tags']
+            'contain' => ['Users', 'Tags', 'Comments']
         ]);
 
         $this->set('article', $article);
@@ -72,6 +74,8 @@ class ArticlesController extends AppController
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->data);
             $article->user_id = $this->Auth->user('id');
+            $article->published = 0;
+
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('The article has been saved.'));
 
@@ -107,8 +111,9 @@ class ArticlesController extends AppController
                 $this->Flash->error(__('The article could not be saved. Please, try again.'));
             }
         }
+        $users = $this->Articles->Users->find('list', ['limit' => 200]);
         $tags = $this->Articles->Tags->find('list', ['limit' => 200]);
-        $this->set(compact('article', 'tags'));
+        $this->set(compact('article', 'users', 'tags'));
         $this->set('_serialize', ['article']);
     }
 
@@ -131,4 +136,6 @@ class ArticlesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
 }

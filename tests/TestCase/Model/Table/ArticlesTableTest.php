@@ -25,6 +25,8 @@ class ArticlesTableTest extends TestCase
      */
     public $fixtures = [
         'app.articles',
+        'app.users',
+        'app.comments',
         'app.tags',
         'app.articles_tags'
     ];
@@ -64,6 +66,16 @@ class ArticlesTableTest extends TestCase
     }
 
     /**
+     * Test validationDefault method
+     *
+     * @return void
+     */
+    public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
      * Test isOwnedBy method
      *
      * @return void
@@ -74,11 +86,11 @@ class ArticlesTableTest extends TestCase
     }
 
     /**
-     * Test validationDefault method
+     * Test buildRules method
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \Cake\ORM\Association\HasMany $Articles
+ * @property \Cake\ORM\Association\HasMany $Comments
+ *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
@@ -37,6 +40,13 @@ class UsersTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('Articles', [
+            'foreignKey' => 'user_id'
+        ]);
+        $this->hasMany('Comments', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**
@@ -49,27 +59,31 @@ class UsersTable extends Table
     {
         $validator
             ->integer('id')
-            ->notEmpty('id', 'create');
+            ->allowEmpty('id', 'create');
 
         $validator
-            ->notEmpty('username');
+            ->allowEmpty('username');
 
         $validator
+            ->email('email')
             ->requirePresence('email', 'create')
             ->notEmpty('email');
 
         $validator
-            ->notEmpty('password');
+            ->allowEmpty('password');
+
+        $validator
+            ->allowEmpty('role');
 
         $validator
             ->add('role', 'inList', [
-                'rule' => ['inList', ['admin', 'author']],
+                'rule' => ['inList', ['admin', 'guest']],
                 'message' => 'Please enter a valid role'
             ]);
 
         return $validator;
     }
-    
+
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
@@ -81,7 +95,6 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->isUnique(['email']));
-
 
         return $rules;
     }

@@ -15,7 +15,7 @@
     <fieldset>
         <legend><?= __('Add Comment') ?></legend>
         <?php
-            echo $this->Form->input('user_id');
+            echo $this->Form->input('user_id', ['options' => $users]);
             echo $this->Form->input('article_id', ['options' => $articles]);
             echo $this->Form->input('comment_id', ['options' => $parentComments, 'empty' => true]);
             echo $this->Form->input('body');

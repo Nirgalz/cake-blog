@@ -4,12 +4,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 use Cake\Auth\DefaultPasswordHasher;
 
+
 /**
  * User Entity
  *
  * @property int $id
  * @property string $username
- * @property string $mail
+ * @property string $email
  * @property string $password
  * @property string $role
  * @property \Cake\I18n\Time $created
@@ -45,4 +46,5 @@ class User extends Entity
     {
         return (new DefaultPasswordHasher)->hash($password);
     }
+
 }

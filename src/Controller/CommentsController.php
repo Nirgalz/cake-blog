@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
 
 /**
  * Comments Controller
@@ -11,32 +10,6 @@ use Cake\Event\Event;
  */
 class CommentsController extends AppController
 {
-
-    public function beforeFilter(Event $event)
-    {
-        $this->Auth->allow(['index', 'view', 'display']);
-
-        $this->set('loggedUser', $this->Auth->user());
-
-    }
-
-    public function isAuthorized($user)
-    {
-        // All registered users can add comments
-        if ($this->request->action === 'add') {
-            return true;
-        }
-
-        // The owner of a comment can edit and delete it
-        if (in_array($this->request->action, ['edit', 'delete'])) {
-            $commentId = (int)$this->request->params['pass'][0];
-            if ($this->Comments->isOwnedBy($commentId, $user['id'])) {
-                return true;
-            }
-        }
-
-        return parent::isAuthorized($user);
-    }
 
     /**
      * Index method
@@ -81,7 +54,6 @@ class CommentsController extends AppController
         $comment = $this->Comments->newEntity();
         if ($this->request->is('post')) {
             $comment = $this->Comments->patchEntity($comment, $this->request->data);
-            $comment->user_id = $this->Auth->user('id');
             if ($this->Comments->save($comment)) {
                 $this->Flash->success(__('The comment has been saved.'));
 
@@ -90,6 +62,8 @@ class CommentsController extends AppController
                 $this->Flash->error(__('The comment could not be saved. Please, try again.'));
             }
         }
+        $users = $this->Comments->Users->find('list', ['limit' => 200]);
+        $articles = $this->Comments->Articles->find('list', ['limit' => 200]);
         $parentComments = $this->Comments->ParentComments->find('list', ['limit' => 200]);
         $this->set(compact('comment', 'users', 'articles', 'parentComments'));
         $this->set('_serialize', ['comment']);

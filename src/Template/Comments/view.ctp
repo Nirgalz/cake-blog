@@ -17,6 +17,10 @@
     <h3><?= h($comment->id) ?></h3>
     <table class="vertical-table">
         <tr>
+            <th scope="row"><?= __('User') ?></th>
+            <td><?= $comment->has('user') ? $this->Html->link($comment->user->id, ['controller' => 'Users', 'action' => 'view', $comment->user->id]) : '' ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Article') ?></th>
             <td><?= $comment->has('article') ? $this->Html->link($comment->article->title, ['controller' => 'Articles', 'action' => 'view', $comment->article->id]) : '' ?></td>
         </tr>
@@ -27,10 +31,6 @@
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($comment->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('User Id') ?></th>
-            <td><?= $this->Number->format($comment->user_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

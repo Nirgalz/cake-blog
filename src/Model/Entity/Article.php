@@ -12,7 +12,10 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  * @property int $user_id
+ * @property int $published
  *
+ * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Comment[] $comments
  * @property \App\Model\Entity\Tag[] $tags
  */
 class Article extends Entity

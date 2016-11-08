@@ -47,7 +47,7 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Creator Id') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
                 <th scope="col"><?= __('Article Id') ?></th>
                 <th scope="col"><?= __('Comment Id') ?></th>
                 <th scope="col"><?= __('Body') ?></th>
@@ -58,7 +58,7 @@
             <?php foreach ($article->comments as $comments): ?>
             <tr>
                 <td><?= h($comments->id) ?></td>
-                <td><?= h($comments->creator_id) ?></td>
+                <td><?= h($comments->user_id) ?></td>
                 <td><?= h($comments->article_id) ?></td>
                 <td><?= h($comments->comment_id) ?></td>
                 <td><?= h($comments->body) ?></td>

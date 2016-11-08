@@ -31,6 +31,7 @@
                 <th scope="col"><?= __('Body') ?></th>
                 <th scope="col"><?= __('Created') ?></th>
                 <th scope="col"><?= __('Modified') ?></th>
+                <th scope="col"><?= __('User Id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($tag->articles as $articles): ?>
@@ -40,6 +41,7 @@
                 <td><?= h($articles->body) ?></td>
                 <td><?= h($articles->created) ?></td>
                 <td><?= h($articles->modified) ?></td>
+                <td><?= h($articles->user_id) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Articles', 'action' => 'view', $articles->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Articles', 'action' => 'edit', $articles->id]) ?>

@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Articles Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\HasMany $Comments
  * @property \Cake\ORM\Association\BelongsToMany $Tags
  *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
@@ -44,21 +45,16 @@ class ArticlesTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Comments', [
+            'foreignKey' => 'article_id'
+        ]);
         $this->belongsToMany('Tags', [
             'foreignKey' => 'article_id',
             'targetForeignKey' => 'tag_id',
             'joinTable' => 'articles_tags'
         ]);
-
-        $this->hasMany('Comments', [
-            'foreignKey' => 'article_id'
-        ]);
     }
 
-    public function isOwnedBy($articleId, $userId)
-    {
-        return $this->exists(['id' => $articleId, 'user_id' => $userId]);
-    }
     /**
      * Default validation rules.
      *
@@ -79,7 +75,16 @@ class ArticlesTable extends Table
             ->requirePresence('body', 'create')
             ->notEmpty('body');
 
+        $validator
+            ->integer('published')
+            ->requirePresence('published', 'create')
+            ->notEmpty('published');
+
         return $validator;
+    }
+    public function isOwnedBy($articleId, $userId)
+    {
+        return $this->exists(['id' => $articleId, 'user_id' => $userId]);
     }
 
     /**
