@@ -13,7 +13,7 @@
     $(function () {
 
         //loads articles list
-        var articleUrl = '<?= $this->Url->build(['controller' => 'Articles', 'action' => 'index']); ?>';
+        var articleUrl = '<?= $this->Url->build(['controller' => 'Articles', 'action' => 'blogindex']); ?>';
         $('#articles').load(articleUrl);
 
         //loads tags list

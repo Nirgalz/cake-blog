@@ -38,6 +38,19 @@ class ArticlesController extends AppController
     public function index()
     {
 
+
+        $this->paginate = [
+            'contain' => ['Users']
+        ];
+        $articles = $this->paginate($this->Articles);
+
+        $this->set(compact('articles'));
+        $this->set('_serialize', ['articles']);
+    }
+
+    public function blogindex()
+    {
+
         $this->viewBuilder()->layout(false);
         $this->paginate = [
             'contain' => ['Users']
