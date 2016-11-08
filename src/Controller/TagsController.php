@@ -18,6 +18,9 @@ class TagsController extends AppController
      */
     public function index()
     {
+
+        $this->viewBuilder()->layout(false);
+
         $tags = $this->paginate($this->Tags);
 
         $this->set(compact('tags'));

@@ -37,6 +37,8 @@ class ArticlesController extends AppController
      */
     public function index()
     {
+
+        $this->viewBuilder()->layout(false);
         $this->paginate = [
             'contain' => ['Users']
         ];

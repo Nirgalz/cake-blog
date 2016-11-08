@@ -19,6 +19,9 @@ $cakeDescription = 'Blog';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+
+    <?= $this->Html->script('jquery.min.js') ?>
+    <?= $this->Html->script('bootstrap.min.js') ?>
 </head>
 <body>
 
@@ -92,7 +95,6 @@ $cakeDescription = 'Blog';
 <footer>
 </footer>
 
-<?= $this->Html->script('jquery.min.js') ?>
-<?= $this->Html->script('bootstrap.min.js') ?>
+
 </body>
 </html>
