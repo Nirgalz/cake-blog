@@ -18,7 +18,7 @@ class CommentsController extends AppController
             return true;
         }
 
-        // The owner of an article can edit and delete it
+        // The owner of a comment can edit and delete it
         if (in_array($this->request->action, ['edit', 'delete'])) {
             $commentId = (int)$this->request->params['pass'][0];
             if ($this->Comments->isOwnedBy($commentId, $user['id'])) {

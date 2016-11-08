@@ -3,9 +3,9 @@
     <?= $this->Form->create() ?>
     <fieldset>
         <legend><?= __('Please enter your username and password') ?></legend>
-        <?= $this->Form->input('username') ?>
-        <?= $this->Form->input('password') ?>
+        <?= $this->Form->input('username', ['class' => 'form-control']) ?>
+        <?= $this->Form->input('password', ['class' => 'form-control']) ?>
     </fieldset>
-    <?= $this->Form->button(__('Login')); ?>
+    <?= $this->Form->button(__('Login', ['class' => 'btn btn-default'])); ?>
     <?= $this->Form->end() ?>
 </div>
