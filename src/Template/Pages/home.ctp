@@ -17,11 +17,11 @@
         $('#articles').load(articleUrl);
 
         //loads tags list
-        var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'index']); ?>';
+        var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'tagbox']); ?>';
         $('#tags').load(tagsUrl);
 
         //loads last comments
-        var commentsUrl = '<?= $this->Url->build(['controller' => 'Comments', 'action' => 'index']); ?>';
+        var commentsUrl = '<?= $this->Url->build(['controller' => 'Comments', 'action' => 'commentbox']); ?>';
         $('#comments').load(commentsUrl);
     })
 </script>

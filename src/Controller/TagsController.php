@@ -19,9 +19,19 @@ class TagsController extends AppController
     public function index()
     {
 
-        $this->viewBuilder()->layout(false);
 
         $tags = $this->paginate($this->Tags);
+
+        $this->set(compact('tags'));
+        $this->set('_serialize', ['tags']);
+    }
+
+    public function tagbox()
+    {
+
+        $this->viewBuilder()->layout(false);
+
+        $tags = $this->Tags->find();
 
         $this->set(compact('tags'));
         $this->set('_serialize', ['tags']);

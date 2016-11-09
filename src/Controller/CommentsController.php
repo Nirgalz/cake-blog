@@ -36,12 +36,22 @@ class CommentsController extends AppController
      */
     public function index()
     {
-        $this->viewBuilder()->layout(false);
-
         $this->paginate = [
             'contain' => ['Users', 'Articles', 'ParentComments']
         ];
         $comments = $this->paginate($this->Comments);
+
+        $this->set(compact('comments'));
+        $this->set('_serialize', ['comments']);
+    }
+
+    public function commentbox()
+    {
+        $this->viewBuilder()->layout(false);
+
+        $comments = $this->Comments->find('all', [
+            'contain' => ['Users', 'Articles', 'ParentComments']
+        ])->order('Comments.created', 'DESC');
 
         $this->set(compact('comments'));
         $this->set('_serialize', ['comments']);
