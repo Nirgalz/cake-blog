@@ -1,7 +1,7 @@
 
 <div class="tags index large-9 medium-8 columns content">
     <h3><?= __('Tags') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table table-responsive table-hover">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>

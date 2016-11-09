@@ -1,7 +1,7 @@
 
 <div class="articles index large-9 medium-8 columns content">
     <h3><?= __('Articles') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table table-responsive table-hover">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
@@ -9,6 +9,7 @@
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('published') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -19,7 +20,9 @@
                 <td><?= h($article->title) ?></td>
                 <td><?= h($article->created) ?></td>
                 <td><?= h($article->modified) ?></td>
-                <td><?= $article->has('user') ? $this->Html->link($article->user->id, ['controller' => 'Users', 'action' => 'view', $article->user->id]) : '' ?></td>
+                <td><?= $article->has('user') ? $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) : '' ?></td>
+                <td><?= h($article->published) ?></td>
+
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $article->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $article->id]) ?>

@@ -36,7 +36,7 @@ $cakeDescription = 'Blog';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Accueil</a>
+            <a class="navbar-brand" href="/">Blog</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -58,7 +58,7 @@ $cakeDescription = 'Blog';
                         <?= $this->Html->link('Connection', ['controller' => 'Users', 'action' => 'login']) ?>
                     </li>
                     <li>
-                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'])?>
+                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
                     </li>
                 </ul>
             <?php endif; ?>
@@ -68,30 +68,66 @@ $cakeDescription = 'Blog';
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false"><?= $loggedUser['username']?> <span class="caret"></span></a>
+                           aria-expanded="false"><?= $loggedUser['username'] ?> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'view', $loggedUser['id']])?></li>
-                            <li><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'])?></li>
+                            <li><?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'view', $loggedUser['id']]) ?></li>
+                            <li><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?></li>
                         </ul>
                     </li>
                 </ul>
+                <?php if ($loggedUser['role'] === 'admin') : ?>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><?= $this->Html->link('Dashboard', ['controller' => 'Pages', 'action' => 'display', 'dashboard']); ?></li>
+                    </ul>
+                <?php endif; ?>
 
             <?php endif; ?>
-
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
 
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
 <?= $this->Flash->render() ?>
-<div class="container clearfix">
-    <?= $this->fetch('content') ?>
-</div>
+
+<?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="btn-group-vertical">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><?= $this->Html->link('Dashboard', ['controller' => 'Pages', 'action' => 'display', 'dashboard'], ['class' => 'btn btn-default']); ?></li>
+                        <li>
+                            <?= $this->Html->link('Add Article', ['controller' => 'Articles', 'action' => 'add'], ['class' => 'btn btn-default']) ?>
+                        </li>
+                        <li>
+                            <?= $this->Html->link('Articles', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+                        </li>
+                        <li>
+                            <?= $this->Html->link('Comments', ['controller' => 'Comments', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+                        </li>
+                        <li>
+                            <?= $this->Html->link('Tags', ['controller' => 'Tags', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+                        </li>
+                        <li>
+                            <?= $this->Html->link('Users', ['controller' => 'Users', 'action' => 'index'], ['class' => 'btn btn-default']) ?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div id="content">
+                    <?= $this->fetch('content') ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<?php if (!isset($loggedUser)): ?>
+    <div class="container clearfix">
+
+        <?= $this->fetch('content') ?>
+    </div>
+<?php endif; ?>
 <footer>
 </footer>
 
