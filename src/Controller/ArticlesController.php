@@ -59,7 +59,7 @@ class ArticlesController extends AppController
 
         $childComments = $this->Articles->Comments->find('all', [
             'contain' => 'Users'
-        ])->where(['comment_id IS NOT' => 'NULL']);
+        ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
 
         $this->set(compact('articles', 'childComments'));
         $this->set('_serialize', ['articles']);

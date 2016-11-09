@@ -24,9 +24,14 @@ function nestedComments($childComments, $comment)
             </div>
       
         ';
-            if (in_array($childComment->comment_id, (array)$childComments)) {
-                nestedComments($childComments, $childComment);
+            foreach ($childComments as $child) {
+                if ($child->comment_id == $childComment->id) {
+
+                    nestedComments($childComments, $childComment);
+                    break;
+                }
             }
+
         }
     }
     echo '</div>';
