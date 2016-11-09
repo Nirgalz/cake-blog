@@ -53,11 +53,15 @@ class ArticlesController extends AppController
 
         $this->viewBuilder()->layout(false);
         $this->paginate = [
-            'contain' => ['Users']
+            'contain' => ['Users', 'Comments.Users']
         ];
         $articles = $this->paginate($this->Articles);
 
-        $this->set(compact('articles'));
+        $childComments = $this->Articles->Comments->find('all', [
+            'contain' => 'Users'
+        ])->where(['comment_id IS NOT' => 'NULL']);
+
+        $this->set(compact('articles', 'childComments'));
         $this->set('_serialize', ['articles']);
     }
 
@@ -89,8 +93,6 @@ class ArticlesController extends AppController
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->data);
             $article->user_id = $this->Auth->user('id');
-            $article->published = 0;
-
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('The article has been saved.'));
 
