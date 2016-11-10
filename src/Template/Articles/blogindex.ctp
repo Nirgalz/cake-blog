@@ -18,10 +18,18 @@ function nestedComments($childComments, $comment)
                         <p>' . $childComment->body . '</p>
                     </div>
                     <div class="actions">
-                        <a id="comment-' . $childComment->id . '" class="reply">Reply</a>
+                        <a id="toggle-comment-' . $childComment->id . '" class="reply add-comment">Reply</a>
                     </div>
                 </div>
             </div>
+            <form id="form-comment-'. $childComment->id.'" class="ui reply form" style="display: none">
+                    <div class="field">
+                        <textarea id="comment-' . $childComment->id . '"></textarea>
+                    </div>
+                    <div onclick="submitComment(' . $childComment->article_id . ', ' . $childComment->id . ')" class="ui blue labeled submit icon button">
+                        <i class="icon edit"></i> Add Reply
+                    </div>
+                </form>
       
         ';
             foreach ($childComments as $child) {
@@ -56,8 +64,16 @@ function nestedComments($childComments, $comment)
             <?= $article->body ?>
         </div>
         <div class="panel-footer">
-            <div id="article-<?= $article->id ?>" class="add-comment btn btn-default">Comment</div>
+            <div id="toggle-article-<?= $article->id?>" class="add-comment btn btn-default">Reply</div>
         </div>
+        <form id="form-article-<?= $article->id?>" class="ui reply form" style="display: none">
+            <div class="field">
+                <textarea id="article-<?= $article->id ?>"></textarea>
+            </div>
+            <div onclick="submitComment(<?= $article->id ?>, null)" class="ui blue labeled submit icon button">
+                <i class="icon edit"></i> Add Reply
+            </div>
+        </form>
 
         <?php if (!empty($article->comments)) : ?>
             <div class="ui comments">
@@ -77,23 +93,24 @@ function nestedComments($childComments, $comment)
                                     <p><?= $comment->body ?></p>
                                 </div>
                                 <div class="actions">
-                                    <a id="article-<?= $comment->article_id ?>" class="reply">Reply</a>
+                                    <a id="toggle-comment-<?= $comment->id?>" class="reply add-comment">Reply</a>
                                 </div>
                             </div>
+                            <form id="form-comment-<?= $comment->id?>" class="ui reply form" style="display: none">
+                                <div class="field">
+                                    <textarea id="comment-<?= $comment->id?>"></textarea>
+                                </div>
+                                <div onclick="submitComment(<?= $article->id?>, <?= $comment->id ?>)" class="ui blue labeled submit icon button">
+                                    <i class="icon edit"></i> Add Reply
+                                </div>
+                            </form>
                             <?php nestedComments($childComments, $comment) ?>
 
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
 
-                <form class="ui reply form hidden">
-                    <div class="field">
-                        <textarea></textarea>
-                    </div>
-                    <div class="ui blue labeled submit icon button">
-                        <i class="icon edit"></i> Add Reply
-                    </div>
-                </form>
+
             </div>
         <?php endif; ?>
 
@@ -116,3 +133,43 @@ function nestedComments($childComments, $comment)
         box-shadow: none;
     }
 </style>
+
+<script>
+
+
+
+    $(function () {
+        //toggles add comment forms
+        $('.add-comment').on('click', function () {
+            var data = $(this).attr('id').split('-');
+            $('#form-'+data[1] +'-' + data[2] + '').toggle('fast');
+        })
+
+    });
+
+    //function to submit comment by ajax
+    function submitComment(articleId, commentId) {
+        if (commentId == null) {
+            var body = $('#article-' + articleId + '').val();
+        } else if (commentId != null) {
+            var body = $('#comment-' + commentId + '').val();
+        }
+
+        var data = {
+            article_id: articleId,
+            comment_id: commentId,
+            body: body
+        };
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            data: data,
+            url: '<?= $this->Url->build(["controller" => "Comments", "action" => "add"])?>',
+            success: function () {
+                location.reload();
+            }
+        })
+
+    }
+
+</script>
