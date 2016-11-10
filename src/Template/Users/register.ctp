@@ -9,7 +9,7 @@
     </div>
     <p>Fill out the form below to sign-up for a new account</p>
 </div>
-<?= $this->Form->create($user, ['class' => 'ui form attached fluid segment', 'enctype' => 'multipart/form-data']) ?>
+<?= $this->Form->create($user, ['class' => 'ui form attached fluid segment', 'type' => 'file']) ?>
 <div class="ui grid">
     <div class="eight wide column">
 
@@ -26,22 +26,8 @@
     </div>
 
     <div class="eight wide column">
-        <div class="fileinput fileinput-new" data-provides="fileinput">
-            <div class="input-group input-large">
-                <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
-                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                    <span class="fileinput-filename"> </span>
-                </div>
-                <span class="input-group-addon btn default btn-file">
-                                                                                    <span class="fileinput-new"> Joindre un fichier </span>
-                                                                                    <span class="fileinput-exists"> Modifier </span>
-                                                                                    <input type="file"
-                                                                                           name="upload"> </span>
-                <a href="javascript:;" class="input-group-addon btn red fileinput-exists"
-                   data-dismiss="fileinput">
-                    Retirer </a>
-            </div>
-        </div>
+        <?php echo $this->Form->input('photo', ['type' => 'file']); ?>
+        <?php echo $this->Form->input('photo_dir', ['type' => 'hidden']); ?>
     </div>
 </div>
 <?= $this->Form->button(__('Submit'), ['class' => 'ui blue submit button']) ?>

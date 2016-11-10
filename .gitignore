@@ -22,7 +22,6 @@
 !.idea/workspace.xml
 
 
-composer.json
 composer.lock
 composer.phar
 bin/
@@ -30,3 +29,11 @@ logs/
 tests/TestCase/Controller/Admin/
 tmp/
 vendor/
+.editorconfig
+.htaccess
+.travis.yml
+src/Controller/Component/empty
+src/Model/Entity/empty
+src/Model/Table/empty
+tests/Fixture/empty
+webroot/js/empty

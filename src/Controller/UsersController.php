@@ -120,7 +120,6 @@ class UsersController extends AppController
     public function register()
     {
 
-        $file = $this->Users->Files->newEntity();
         $user = $this->Users->newEntity();
 
         if ($this->request->is('post')) {
@@ -128,15 +127,6 @@ class UsersController extends AppController
             $user->role = 'guest';
 
             if ($this->Users->save($user)) {
-                $picture = $this->Upload->getFile($this->request->data['upload'],'avatar', false);
-
-                $file = $this->Users->Files->patchEntity($file, $this->request->data);
-                $file->name = $picture;
-                $file->user_id = $user->id;
-
-                if ($this->Users->Files->save($file)) {
-                    return $this->redirect($this->referer());
-                }
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

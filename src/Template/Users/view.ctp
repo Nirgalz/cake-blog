@@ -40,3 +40,4 @@
         </tr>
     </table>
 </div>
+<?= $this->Html->image('../files/Users/photo/' . $user->photo)?>
