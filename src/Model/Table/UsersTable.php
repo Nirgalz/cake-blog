@@ -47,6 +47,9 @@ class UsersTable extends Table
         $this->hasMany('Comments', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Files', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**

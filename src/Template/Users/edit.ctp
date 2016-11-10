@@ -1,5 +1,10 @@
+<?= $this->Html->css('../bootstrap-fileinput/bootstrap-fileinput.css') ?>
+<?= $this->Html->script('../bootstrap-fileinput/bootstrap-fileinput.js') ?>
 
-<div class="ui attached message">
+
+
+
+    <div class="ui attached message">
     <div class="header">
         Edit your profile
     </div>

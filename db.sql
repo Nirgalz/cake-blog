@@ -36,4 +36,11 @@ CREATE TABLE articles_tags (
   tag_id INT NOT NULL ,
   article_id INT NOT NULL,
   PRIMARY KEY (tag_id, article_id)
+);
+
+CREATE TABLE files (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(80),
+  user_id INT DEFAULT NULL ,
+  article_id INT DEFAULT NULL
 )

@@ -88,10 +88,24 @@ class UsersController extends AppController
      */
     public function add()
     {
+
+
+        $file = $this->Users->Files->newEntity();
         $user = $this->Users->newEntity();
+
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
+                $picture = $this->Upload->getFile($this->request->data['upload'],'avatar', false);
+                $this->request->data['upload'] = $picture;
+
+                $file = $this->Users->Files->patchEntity($file, $this->request->data);
+                $file->name = $picture;
+                $file->user_id = $user->id;
+
+                if ($this->Users->Files->save($file)) {
+                    return $this->redirect($this->referer());
+                }
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -105,11 +119,24 @@ class UsersController extends AppController
 
     public function register()
     {
+
+        $file = $this->Users->Files->newEntity();
         $user = $this->Users->newEntity();
+
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             $user->role = 'guest';
+
             if ($this->Users->save($user)) {
+                $picture = $this->Upload->getFile($this->request->data['upload'],'avatar', false);
+
+                $file = $this->Users->Files->patchEntity($file, $this->request->data);
+                $file->name = $picture;
+                $file->user_id = $user->id;
+
+                if ($this->Users->Files->save($file)) {
+                    return $this->redirect($this->referer());
+                }
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -119,6 +146,9 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+
     }
 
     /**

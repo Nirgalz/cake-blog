@@ -59,6 +59,9 @@ class CommentsTable extends Table
             'className' => 'Comments',
             'foreignKey' => 'comment_id'
         ]);
+        $this->hasMany('Files', [
+            'foreignKey' => 'comment_id'
+        ]);
     }
 
     /**
