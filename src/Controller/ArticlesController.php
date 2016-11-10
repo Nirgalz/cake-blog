@@ -53,7 +53,8 @@ class ArticlesController extends AppController
 
         $this->viewBuilder()->layout(false);
         $this->paginate = [
-            'contain' => ['Users', 'Comments.Users']
+            'contain' => ['Users', 'Comments.Users'],
+            'conditions' => ['published' => 1]
         ];
         $articles = $this->paginate($this->Articles);
 

@@ -51,6 +51,7 @@ function nestedComments($childComments, $comment)
 
 <?php foreach ($articles as $article) : ?>
 
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="caption">
@@ -116,6 +117,7 @@ function nestedComments($childComments, $comment)
 
 
     </div>
+
 <?php endforeach; ?>
 
 <style>

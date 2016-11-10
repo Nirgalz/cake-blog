@@ -1,32 +1,20 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $article->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $article->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Articles'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Comments'), ['controller' => 'Comments', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Comment'), ['controller' => 'Comments', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Tags'), ['controller' => 'Tags', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Tag'), ['controller' => 'Tags', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="articles form large-9 medium-8 columns content">
-    <?= $this->Form->create($article) ?>
+<div class="col-md-8">
+    <?= $this->Form->create($article, ['class' => 'ui form']) ?>
     <fieldset>
-        <legend><?= __('Edit Article') ?></legend>
+        <legend><?= __('Add Article') ?></legend>
         <?php
-            echo $this->Form->input('title');
-            echo $this->Form->input('body');
-            echo $this->Form->input('user_id', ['options' => $users, 'empty' => true]);
-            echo $this->Form->input('tags._ids', ['options' => $tags]);
+        echo $this->Form->input('title', ['class' => 'form-control']);
+        echo $this->Form->input('body', ['class' => 'form-control']);
+        echo 'Published';
+        echo $this->Form->checkbox('published', ['class' => 'form-control']);
+        ?>
+
+
+        <?php
+        echo $this->Form->input('tags._ids', ['options' => $tags]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
     <?= $this->Form->end() ?>
 </div>
+

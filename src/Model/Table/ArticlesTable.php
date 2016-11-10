@@ -75,10 +75,7 @@ class ArticlesTable extends Table
             ->requirePresence('body', 'create')
             ->notEmpty('body');
 
-        $validator
-            ->integer('published')
-            ->requirePresence('published', 'create')
-            ->notEmpty('published');
+
 
         return $validator;
     }

@@ -5,17 +5,12 @@
         <?php
         echo $this->Form->input('title', ['class' => 'form-control']);
         echo $this->Form->input('body', ['class' => 'form-control']);
-        echo 'Published ?';
+        echo 'Published';
+        echo $this->Form->checkbox('published', ['class' => 'form-control']);
         ?>
-        <div class="inline field">
-            <div class="ui toggle checkbox">
-                <label>Published ?</label>
-                <input id="published" name="published" type="checkbox" class="hidden" value="0">
 
-            </div>
-        </div>
 
-<?php
+        <?php
         echo $this->Form->input('tags._ids', ['options' => $tags]);
         ?>
     </fieldset>
@@ -23,20 +18,3 @@
     <?= $this->Form->end() ?>
 </div>
 
-
-<script>
-    $('.ui.checkbox')
-        .checkbox()
-    ;
-    $('.checkbox').on('click', function () {
-        var check = $('#published');
-        if (check.val() == 0 ) {
-            check.val(1);
-        } else if (check.val() == 1 ) {
-            check.val(0);
-        }
-
-
-            console.log($('#published').val());
-    })
-</script>
