@@ -22,7 +22,7 @@ function nestedComments($childComments, $comment)
                     </div>
                 </div>
             </div>
-            <form id="form-comment-'. $childComment->id.'" class="ui reply form" style="display: none">
+            <form id="form-comment-'. $childComment->id.'" class="ui reply form hideit" style="display: none;">
                     <div class="field">
                         <textarea id="comment-' . $childComment->id . '"></textarea>
                     </div>
@@ -66,7 +66,7 @@ function nestedComments($childComments, $comment)
         <div class="panel-footer">
             <div id="toggle-article-<?= $article->id?>" class="add-comment btn btn-default">Reply</div>
         </div>
-        <form id="form-article-<?= $article->id?>" class="ui reply form" style="display: none">
+        <form id="form-article-<?= $article->id?>" class="ui reply form hideit" style="display: none;">
             <div class="field">
                 <textarea id="article-<?= $article->id ?>"></textarea>
             </div>
@@ -96,7 +96,7 @@ function nestedComments($childComments, $comment)
                                     <a id="toggle-comment-<?= $comment->id?>" class="reply add-comment">Reply</a>
                                 </div>
                             </div>
-                            <form id="form-comment-<?= $comment->id?>" class="ui reply form" style="display: none">
+                            <form id="form-comment-<?= $comment->id?>" class="ui reply form hideit" style="display: none;">
                                 <div class="field">
                                     <textarea id="comment-<?= $comment->id?>"></textarea>
                                 </div>
@@ -142,7 +142,14 @@ function nestedComments($childComments, $comment)
         //toggles add comment forms
         $('.add-comment').on('click', function () {
             var data = $(this).attr('id').split('-');
-            $('#form-'+data[1] +'-' + data[2] + '').toggle('fast');
+            var form = $('#form-'+data[1] +'-' + data[2] + '');
+            if (!(form.attr('style') == 'display: none;')) {
+                form.addClass('hideit').hide('slow');
+            } else {
+                form.removeClass('hideit').show('slow');
+                $('.hideit').hide('slow');
+                form.addClass('hideit');
+            }
         })
 
     });
