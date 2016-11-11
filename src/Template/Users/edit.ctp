@@ -1,16 +1,11 @@
-<?= $this->Html->css('../bootstrap-fileinput/bootstrap-fileinput.css') ?>
-<?= $this->Html->script('../bootstrap-fileinput/bootstrap-fileinput.js') ?>
 
-
-
-
-    <div class="ui attached message">
+<div class="ui attached message">
     <div class="header">
-        Edit your profile
+        Welcome to our site!
     </div>
-    <p>Change in the form below then submit your changes.</p>
+    <p>Fill out the form below to sign-up for a new account</p>
 </div>
-<?= $this->Form->create($user, ['class' => 'ui form attached fluid segment']) ?>
+<?= $this->Form->create($user, ['class' => 'ui form attached fluid segment', 'type' => 'file']) ?>
 <div class="ui grid">
     <div class="eight wide column">
 
@@ -25,6 +20,15 @@
             <br>
         </div>
     </div>
+
+    <div class="eight wide column">
+        <?php echo $this->Form->input('photo', ['type' => 'file']); ?>
+        <?php echo $this->Form->input('photo_dir', ['type' => 'hidden']); ?>
+    </div>
 </div>
 <?= $this->Form->button(__('Submit'), ['class' => 'ui blue submit button']) ?>
 <?= $this->Form->end() ?>
+<div class="ui bottom attached warning message">
+    <i class="icon help"></i>
+    Already signed up? <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'login']) ?>">Login here</a> instead.
+</div>

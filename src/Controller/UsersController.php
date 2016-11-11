@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 
+
 /**
  * Users Controller
  *
@@ -11,7 +12,6 @@ use Cake\Event\Event;
  */
 class UsersController extends AppController
 {
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -153,6 +153,20 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+/*
+        $status = $this->ImageTool->resize(array(
+            'input' => $this->request->data('file'),
+            'output' => $output_file,
+            'width' => 600,
+            'height' => 600,
+            'mode' => 'fit',
+            'paddings' => false,
+            'afterCallbacks' => array(
+                array('watermark', array('watermark' => $watermark_file, 'position' => 'bottom-right')),
+                array('unsharpMask'),
+            )
+        ));*/
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {

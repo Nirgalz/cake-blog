@@ -1,27 +1,25 @@
-    <div class="row">
-        <div class="col-md-8 col-sm-12">
-            <div id="articles"></div>
-        </div>
-        <div class="col-md-4 col-sm12">
-            <div id="recherche">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Search the blog
+<div class="row">
+    <div class="col-md-8 col-sm-12">
+        <div id="articles"></div>
+    </div>
+    <div class="col-md-4 col-sm12">
+        <div id="recherche">
+            <h4 class="ui top attached inverted header">Search the blog</h4>
+            <div class="ui attached segment bottom">
+                <div class="ui category search">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" placeholder="Search the blog...">
+                        <i class="search icon"></i>
                     </div>
-                    <div class="panel-body">
-                        <form class="form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </div>
-                            <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
-                    </div>
+                    <div class="results"></div>
                 </div>
             </div>
-            <div id="tags"></div>
-            <div id="comments"></div>
         </div>
+
+        <div id="tags"></div>
+        <div id="comments"></div>
     </div>
+</div>
 
 <script>
     $(function () {

@@ -1,3 +1,7 @@
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
+
+
 <div class="col-md-8">
     <div class="ui attached message">
         <div class="header">
@@ -5,15 +9,14 @@
         </div>
         <p>Additional message</p>
     </div>
-    <?= $this->Form->create($article, ['class' => 'ui form attached fluid segment']) ?>
-        <legend><?= __('Add Article') ?></legend>
+    <?= $this->Form->create($article, ['class' => 'ui form attached fluid segment', 'name' => 'article']) ?>
         <div class="field">
         <?= $this->Form->input('title', ['class' => 'form-control']); ?>
             </div>
-    <div class="field">
 
-   <?= $this->Form->input('body', ['class' => 'form-control']); ?>
-        </div>
+
+   <?= $this->Form->input('body'); ?>
+
     <div class="field">
 
     <?= 'Published'; ?>
@@ -30,3 +33,8 @@
     <?= $this->Form->end() ?>
 </div>
 
+<script>
+    $(function () {
+        $('#body').removeAttr('required');
+    })
+</script>

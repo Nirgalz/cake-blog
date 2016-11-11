@@ -7,7 +7,7 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="/images/avatar/small/jenny.jpg">
+                    <img src="../files/Users/photo/'. $childComment->user->photo .'">
                 </a>
                 <div class="content">
                     <a class="author">' . $childComment->user->username . '</a>
@@ -22,7 +22,7 @@ function nestedComments($childComments, $comment)
                     </div>
                 </div>
             </div>
-            <form id="form-comment-'. $childComment->id.'" class="ui reply form hideit" style="display: none;">
+            <form id="form-comment-' . $childComment->id . '" class="ui reply form hideit" style="display: none;">
                     <div class="field">
                         <textarea id="comment-' . $childComment->id . '"></textarea>
                     </div>
@@ -52,22 +52,32 @@ function nestedComments($childComments, $comment)
 <?php foreach ($articles as $article) : ?>
 
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="caption">
-                <?= $article->title ?>
-                <div class="pull-right">
-                    <?= $article->created ?>
+
+
+    <h4 class="ui top attached inverted header">
+        <?= $article->title ?>
+        <p class="pull-right">
+            <?= $article->created ?>
+        </p>
+    </h4>
+    <div class="ui attached segment">
+        <?= $article->body ?>
+    </div>
+    <div class="ui bottom attached segment">
+        <div class="ui comments">
+            <div class="comment">
+                <a class="avatar">
+                    <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
+                </a>
+                <div class="content">
+                    <a class="author"><?= $article->user->username ?></a>
                 </div>
             </div>
         </div>
-        <div class="panel-body">
-            <?= $article->body ?>
-        </div>
-        <div class="panel-footer">
-            <div id="toggle-article-<?= $article->id?>" class="add-comment btn btn-default">Reply</div>
-        </div>
-        <form id="form-article-<?= $article->id?>" class="ui reply form hideit" style="display: none;">
+        <h3 class="ui dividing header">Comments</h3>
+
+        <div id="toggle-article-<?= $article->id ?>" class="add-comment btn btn-default">Reply</div>
+        <form id="form-article-<?= $article->id ?>" class="ui reply form hideit" style="display: none;">
             <div class="field">
                 <textarea id="article-<?= $article->id ?>"></textarea>
             </div>
@@ -76,6 +86,7 @@ function nestedComments($childComments, $comment)
             </div>
         </form>
 
+
         <?php if (!empty($article->comments)) : ?>
             <div class="ui comments">
                 <h3 class="ui dividing header">Comments</h3>
@@ -83,7 +94,7 @@ function nestedComments($childComments, $comment)
                     <?php if ($comment->comment_id == null) : ?>
                         <div class="comment">
                             <a class="avatar">
-                                <img src="/images/avatar/small/elliot.jpg">
+                                <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
                             </a>
                             <div class="content">
                                 <a class="author"><?= $comment->user->username ?></a>
@@ -94,14 +105,16 @@ function nestedComments($childComments, $comment)
                                     <p><?= $comment->body ?></p>
                                 </div>
                                 <div class="actions">
-                                    <a id="toggle-comment-<?= $comment->id?>" class="reply add-comment">Reply</a>
+                                    <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment">Reply</a>
                                 </div>
                             </div>
-                            <form id="form-comment-<?= $comment->id?>" class="ui reply form hideit" style="display: none;">
+                            <form id="form-comment-<?= $comment->id ?>" class="ui reply form hideit"
+                                  style="display: none;">
                                 <div class="field">
-                                    <textarea id="comment-<?= $comment->id?>"></textarea>
+                                    <textarea id="comment-<?= $comment->id ?>"></textarea>
                                 </div>
-                                <div onclick="submitComment(<?= $article->id?>, <?= $comment->id ?>)" class="ui blue labeled submit icon button">
+                                <div onclick="submitComment(<?= $article->id ?>, <?= $comment->id ?>)"
+                                     class="ui blue labeled submit icon button">
                                     <i class="icon edit"></i> Add Reply
                                 </div>
                             </form>
@@ -139,12 +152,11 @@ function nestedComments($childComments, $comment)
 <script>
 
 
-
     $(function () {
         //toggles add comment forms
         $('.add-comment').on('click', function () {
             var data = $(this).attr('id').split('-');
-            var form = $('#form-'+data[1] +'-' + data[2] + '');
+            var form = $('#form-' + data[1] + '-' + data[2] + '');
             if (!(form.attr('style') == 'display: none;')) {
                 form.addClass('hideit').hide('slow');
             } else {

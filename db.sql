@@ -4,7 +4,7 @@ CREATE TABLE articles (
     body TEXT NOT NULL,
     created DATETIME DEFAULT NULL,
     modified DATETIME DEFAULT NULL,
-    creator_id INT NOT NULL
+    user_id INT NOT NULL
 );
 
 CREATE TABLE comments (
