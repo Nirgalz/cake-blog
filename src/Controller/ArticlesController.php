@@ -35,6 +35,18 @@ class ArticlesController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
+
+    public function search($search = null) {
+        $this->paginate = [
+            'contain' => ['Users'],
+            'conditions' => ['body LIKE' => '%'.$search.'%']
+        ];
+        $articles = $this->paginate($this->Articles);
+
+        $this->set(compact('articles', 'search'));
+        $this->set('_serialize', ['articles']);
+    }
+
     public function adindex()
     {
 

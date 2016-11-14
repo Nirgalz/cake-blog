@@ -58,7 +58,7 @@ $cakeDescription = 'Blog';
     <div class="ui large menu stackable container inverted">
         <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
 
-            <a id="dash" class="navbar-brand">Dashboard</a>
+            <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
         <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'item active']) ?>
@@ -73,6 +73,14 @@ $cakeDescription = 'Blog';
 
         <?php if (!isset($loggedUser)): ?>
             <div class="right menu">
+                <div class="item">
+                    <div class="ui category small search">
+                        <div class="ui icon input">
+                            <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                </div>
                 <div class="item">
                     <div class="ui inverted button">
                         <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login', 'class' => 'ui primary button']) ?>
@@ -90,6 +98,14 @@ $cakeDescription = 'Blog';
         <?php if (isset($loggedUser)): ?>
 
             <div class="right menu">
+                <div class="item">
+                    <div class="ui category small search">
+                        <div class="ui icon input">
+                            <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                </div>
                 <div id="drop" class="ui simple dropdown item ">
                     <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
                     <div class="menu">

@@ -90,31 +90,32 @@ function nestedComments($childComments, $comment)
                         </button>
                     <?php endif; ?>
                     <button id="toggle-article-<?= $article->id ?>" class="add-comment ui button">
-                        <i class="icon reply"></i> Reply</button>
+                        <i class="icon reply"></i> Reply
+                    </button>
 
 
                     <div class="ui icon top left pointing dropdown button pull-right">
                         <i class="share alternate icon"></i> Share
                         <div class="menu">
                             <!--facebook shit needs api key-->
-                           <!-- <div class="ui facebook button item sharer button"
+                            <!-- <div class="ui facebook button item sharer button"
                                  data-sharer="facebook"
-                                 data-url="http://mysite<?/*= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])*/?>">
+                                 data-url="http://mysite<? /*= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])*/ ?>">
                                 <i class="facebook icon"></i>
                                 Facebook
                             </div>-->
 
                             <div class="ui twitter button item sharer button"
-                                 data-sharer="twitter" data-title="<?= $article->title?>"
-                                 data-hashtags="<?php foreach ($article->tags as $tag):?><?= $tag->name?>,<?php endforeach;?>"
-                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>">
+                                 data-sharer="twitter" data-title="<?= $article->title ?>"
+                                 data-hashtags="<?php foreach ($article->tags as $tag): ?><?= $tag->name ?>,<?php endforeach; ?>"
+                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id]) ?>">
                                 <i class="twitter icon"></i>
                                 Twitter
                             </div>
                             <div class="ui mail button item sharer button"
-                                 data-sharer="email" data-title="<?= $article->title?>"
-                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>"
-                                 data-subject="<?= $article->title?>">
+                                 data-sharer="email" data-title="<?= $article->title ?>"
+                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id]) ?>"
+                                 data-subject="<?= $article->title ?>">
                                 <i class="mail icon"></i>
                                 Email
                             </div>
@@ -185,27 +186,17 @@ function nestedComments($childComments, $comment)
         </div>
     </div>
     <div class="col-md-4 col-sm12">
-        <div id="recherche">
-            <h4 class="ui top attached inverted header">Search the blog</h4>
-            <div class="ui attached segment bottom">
-                <div class="ui category search">
-                    <div class="ui icon input">
-                        <input class="prompt" type="text" placeholder="Search the blog...">
-                        <i class="search icon"></i>
-                    </div>
-                    <div class="results"></div>
-                </div>
-            </div>
-        </div>
 
-
-
-        <h4 class="ui top attached inverted header">Filter by Tags</h4>
+        <h4 class="ui top attached inverted header"><i class="tags icon"></i>Filter by Tags</h4>
         <div class="ui attached segment bottom">
             <table class="ui selectable celled table">
                 <tbody>
                 <?php foreach ($tags as $tag) : ?>
-                    <tr><td class="tag-btn" id="tag-btn-<?= $tag->id ?>"><?= $tag->name?> (<?= count($tag->articles)?>)</td></tr>
+                    <tr>
+                        <td class="tag-btn" id="tag-btn-<?= $tag->id ?>"><?= $tag->name ?> (<?= count($tag->articles) ?>
+                            )
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
 
                 </tbody>
@@ -214,15 +205,17 @@ function nestedComments($childComments, $comment)
         </div>
 
 
-
-        <h4 class="ui top attached inverted header">Last comments</h4>
+        <h4 class="ui top attached inverted header"><i class="comments icon"></i> Last comments</h4>
         <div class="ui attached segment bottom">
             <table class="ui selectable celled table">
                 <tbody>
 
                 <?php foreach ($comments as $comment) : ?>
-                    <tr><td class="comment-btn" id="comment-btn-<?= $comment->article_id ?>">Article : <?= $comment->article->title ?> - comment
-                            :<?= $comment->body ?></td></tr>
+                    <tr>
+                        <td class="comment-btn" id="comment-btn-<?= $comment->article_id ?>">Article
+                            : <?= $comment->article->title ?> - comment
+                            :<?= $comment->body ?></td>
+                    </tr>
                 <?php endforeach; ?>
 
                 </tbody>
@@ -247,13 +240,13 @@ function nestedComments($childComments, $comment)
         border: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: none;
     }
-    .comment-btn,.tag-btn {
+
+    .comment-btn, .tag-btn {
         cursor: pointer;
     }
 </style>
 
 <?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
-
 
 
 <script>
@@ -263,9 +256,20 @@ function nestedComments($childComments, $comment)
 
 
     $(function () {
+
+
+        $('#search-form').keypress(function (e) {
+            var search = $('#search-form').val();
+            if (e.which == 13) {
+                window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/'+ search;
+
+            }
+        });
+
+
         $('.tag-btn').on('click', function () {
             var id = $(this).attr('id').split('-');
-            window.location = '/articles/blogindex/' + id[2];
+            window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "blogindex"])?>' + '/'+ id[2];
         });
         $('.comment-btn').on('click', function () {
             var id = $(this).attr('id').split('-');
