@@ -76,16 +76,13 @@ $cakeDescription = 'Blog';
                 <div class="item">
                     <div class="ui inverted button">
                         <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login', 'class' => 'ui primary button']) ?>
-
                     </div>
-
                 </div>
                 <div class="item">
                     <div class="ui inverted button">
                         <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
                     </div>
                 </div>
-
             </div>
 
         <?php endif; ?>
@@ -96,11 +93,10 @@ $cakeDescription = 'Blog';
                 <div id="drop" class="ui simple dropdown item ">
                     <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
                     <div class="menu">
-                        <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'view', $loggedUser['id']], [ 'class' => 'profile-btn item']) ?>
+                        <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'edit', $loggedUser['id']], [ 'class' => 'profile-btn item']) ?>
                         <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'],  ['class' => 'profile-btn item']) ?>
                     </div>
                 </div>
-
             </div>
         <?php endif; ?>
 
