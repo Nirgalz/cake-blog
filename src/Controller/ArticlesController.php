@@ -66,9 +66,7 @@ class ArticlesController extends AppController
                 ]);
             }));
 
-            $childComments = $this->Articles->Comments->find('all', [
-                'contain' => 'Users'
-            ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+
         } else {
             $this->paginate = [
                 'contain' => ['Users', 'Comments.Users', 'Tags'],
@@ -80,14 +78,23 @@ class ArticlesController extends AppController
             ];
             $articles = $this->paginate($this->Articles);
 
-            $childComments = $this->Articles->Comments->find('all', [
-                'contain' => 'Users'
-            ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+
         }
+        $comments = $this->Articles->Comments->find()
+            ->contain(['Articles'])
+            ->order(['Comments.created' => 'DESC'])
+            ->limit(10);
+
+        $tags = $this->Articles->Tags->find()->contain(['Articles']);
+
+
+        $childComments = $this->Articles->Comments->find('all', [
+            'contain' => 'Users'
+        ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
 
 
 
-        $this->set(compact('articles', 'childComments'));
+        $this->set(compact('articles', 'childComments', 'comments', 'tags'));
         $this->set('_serialize', ['articles']);
     }
 
@@ -101,9 +108,14 @@ class ArticlesController extends AppController
     public function view($id = null)
     {
         $article = $this->Articles->get($id, [
-            'contain' => ['Users', 'Tags', 'Comments']
+            'contain' => ['Users', 'Tags', 'Comments.Users']
         ]);
 
+        $childComments = $this->Articles->Comments->find('all', [
+            'contain' => 'Users'
+        ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+
+        $this->set(compact('childComments'));
         $this->set('article', $article);
         $this->set('_serialize', ['article']);
     }

@@ -136,7 +136,7 @@ function nestedComments($childComments, $comment)
 
                     <?php if (!empty($article->comments)) : ?>
                         <div id="show-comment-<?= $article->id ?>" class="ui hidethat comments" style="display: none;">
-                            <h3 class="ui dividing header">Comments</h3>
+                            <h3 class="ui dividing header"></h3>
                             <?php foreach ($article->comments as $comment) : ?>
                                 <?php if ($comment->comment_id == null) : ?>
                                     <div class="comment">
@@ -198,8 +198,37 @@ function nestedComments($childComments, $comment)
             </div>
         </div>
 
-        <div id="tags"></div>
-        <div id="comments"></div>
+
+
+        <h4 class="ui top attached inverted header">Filter by Tags</h4>
+        <div class="ui attached segment bottom">
+            <table class="ui selectable celled table">
+                <tbody>
+                <?php foreach ($tags as $tag) : ?>
+                    <tr><td class="tag-btn" id="tag-btn-<?= $tag->id ?>"><?= $tag->name?> (<?= count($tag->articles)?>)</td></tr>
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        <h4 class="ui top attached inverted header">Last comments</h4>
+        <div class="ui attached segment bottom">
+            <table class="ui selectable celled table">
+                <tbody>
+
+                <?php foreach ($comments as $comment) : ?>
+                    <tr><td class="comment-btn" id="comment-btn-<?= $comment->article_id ?>">Article : <?= $comment->article->title ?> - comment
+                            :<?= $comment->body ?></td></tr>
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+        </div>
     </div>
 </div>
 
@@ -218,14 +247,32 @@ function nestedComments($childComments, $comment)
         border: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: none;
     }
+    .comment-btn,.tag-btn {
+        cursor: pointer;
+    }
 </style>
 
 <?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
 
+
+
+<script>
+
+</script>
 <script>
 
 
     $(function () {
+        $('.tag-btn').on('click', function () {
+            var id = $(this).attr('id').split('-');
+            window.location = '/articles/blogindex/' + id[2];
+        });
+        $('.comment-btn').on('click', function () {
+            var id = $(this).attr('id').split('-');
+            window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[2];
+        });
+
+
         $('.ui.dropdown').dropdown({
             on: 'hover'
         });
