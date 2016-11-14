@@ -21,6 +21,6 @@
 <script>
     $('.tag-btn').on('click', function () {
         var id = $(this).attr('id').split('-');
-        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "blogindex"])?>' + '/' + id[2];
+        window.location = '/articles/blogindex/' + id[2];
     })
 </script>

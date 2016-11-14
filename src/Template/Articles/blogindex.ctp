@@ -7,7 +7,7 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="../files/Users/photo/'. $childComment->user->photo .'">
+                    <img src="../../files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
                     <a class="author">' . $childComment->user->username . '</a>
@@ -49,15 +49,11 @@ function nestedComments($childComments, $comment)
 ?>
 
 
-
 <div class="row">
     <div class="col-md-8 col-sm-12">
         <div id="articles">
 
             <?php foreach ($articles as $article) : ?>
-
-
-
 
                 <h4 class="ui top attached inverted header">
                     <?= $article->title ?>
@@ -66,9 +62,6 @@ function nestedComments($childComments, $comment)
                     </p>
                 </h4>
                 <div class="ui attached segment">
-                    <?= $article->body ?>
-                </div>
-                <div class="ui bottom attached segment">
                     <div class="ui comments">
                         <div class="comment">
                             <a class="avatar">
@@ -76,24 +69,73 @@ function nestedComments($childComments, $comment)
                             </a>
                             <div class="content">
                                 <a class="author"><?= $article->user->username ?></a>
+
                             </div>
                         </div>
+                        <br>
                     </div>
-                    <h3 class="ui dividing header">Comments</h3>
 
-                    <div id="toggle-article-<?= $article->id ?>" class="add-comment btn btn-default">Reply</div>
+                </div>
+                <div class="ui attached segment">
+                    <?= $article->body ?>
+                </div>
+
+                <div class="ui  attached segment">
+
+                    <?php if (!empty($article->comments)): ?>
+
+                        <button id="toggle-comment-<?= $article->id ?>" class="ui  button view-comment">
+                            <i class="icon comments"></i>
+                            <?= count($article->comments) ?> Comments
+                        </button>
+                    <?php endif; ?>
+                    <button id="toggle-article-<?= $article->id ?>" class="add-comment ui button">
+                        <i class="icon reply"></i> Reply</button>
+
+
+                    <div class="ui icon top left pointing dropdown button pull-right">
+                        <i class="share alternate icon"></i> Share
+                        <div class="menu">
+                            <!--facebook shit needs api key-->
+                           <!-- <div class="ui facebook button item sharer button"
+                                 data-sharer="facebook"
+                                 data-url="http://mysite<?/*= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])*/?>">
+                                <i class="facebook icon"></i>
+                                Facebook
+                            </div>-->
+
+                            <div class="ui twitter button item sharer button"
+                                 data-sharer="twitter" data-title="<?= $article->title?>"
+                                 data-hashtags="<?php foreach ($article->tags as $tag):?><?= $tag->name?>,<?php endforeach;?>"
+                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>">
+                                <i class="twitter icon"></i>
+                                Twitter
+                            </div>
+                            <div class="ui mail button item sharer button"
+                                 data-sharer="email" data-title="<?= $article->title?>"
+                                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>"
+                                 data-subject="<?= $article->title?>">
+                                <i class="mail icon"></i>
+                                Email
+                            </div>
+
+                        </div>
+                    </div>
+
+
                     <form id="form-article-<?= $article->id ?>" class="ui reply form hideit" style="display: none;">
                         <div class="field">
                             <textarea id="article-<?= $article->id ?>"></textarea>
                         </div>
-                        <div onclick="submitComment(<?= $article->id ?>, null)" class="ui blue labeled submit icon button">
+                        <div onclick="submitComment(<?= $article->id ?>, null)"
+                             class="ui blue labeled submit icon button">
                             <i class="icon edit"></i> Add Reply
                         </div>
                     </form>
 
 
                     <?php if (!empty($article->comments)) : ?>
-                        <div class="ui comments">
+                        <div id="show-comment-<?= $article->id ?>" class="ui hidethat comments" style="display: none;">
                             <h3 class="ui dividing header">Comments</h3>
                             <?php foreach ($article->comments as $comment) : ?>
                                 <?php if ($comment->comment_id == null) : ?>
@@ -124,18 +166,12 @@ function nestedComments($childComments, $comment)
                                             </div>
                                         </form>
                                         <?php nestedComments($childComments, $comment) ?>
-
                                     </div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-
-
                         </div>
                     <?php endif; ?>
-
-
                 </div>
-
             <?php endforeach; ?>
 
             <div class="paginator">
@@ -168,10 +204,6 @@ function nestedComments($childComments, $comment)
 </div>
 
 
-
-
-
-
 <style>
     /*******************************
            Overrides
@@ -188,12 +220,16 @@ function nestedComments($childComments, $comment)
     }
 </style>
 
-
+<?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
 
 <script>
 
 
     $(function () {
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+
         //loads tags list
         var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'tagbox']); ?>';
         $('#tags').load(tagsUrl);
@@ -214,6 +250,20 @@ function nestedComments($childComments, $comment)
                 $('.hideit').hide('slow');
                 form.addClass('hideit');
             }
+        });
+
+        //toggles comments
+        $('.view-comment').on('click', function () {
+            var data = $(this).attr('id').split('-');
+            var form = $('#show-comment-' + data[2] + '');
+
+            if (!(form.attr('style') == 'display: none;')) {
+                form.addClass('hidethat').hide('slow');
+            } else {
+                form.removeClass('hidethat').show('slow');
+                $('.hidethat').hide('slow');
+                form.addClass('hidethat');
+            }
         })
 
     });
@@ -231,7 +281,6 @@ function nestedComments($childComments, $comment)
             comment_id: commentId,
             body: body
         };
-        console.log(data);
         $.ajax({
             type: 'POST',
             data: data,

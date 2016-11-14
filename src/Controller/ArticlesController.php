@@ -53,7 +53,7 @@ class ArticlesController extends AppController
 
         if (isset($id)) {
             $this->paginate = [
-                'contain' => ['Users', 'Comments.Users'],
+                'contain' => ['Users', 'Comments.Users', 'Tags'],
                 'conditions' => ['published' => 1],
                 'limit' => 5,
                 'order' => [
@@ -71,7 +71,7 @@ class ArticlesController extends AppController
             ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
         } else {
             $this->paginate = [
-                'contain' => ['Users', 'Comments.Users'],
+                'contain' => ['Users', 'Comments.Users', 'Tags'],
                 'conditions' => ['published' => 1],
                 'limit' => 5,
                 'order' => [
