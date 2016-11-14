@@ -35,7 +35,7 @@ class ArticlesController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+    public function adindex()
     {
 
 

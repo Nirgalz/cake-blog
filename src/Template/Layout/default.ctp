@@ -27,7 +27,11 @@ $cakeDescription = 'Blog';
 
     <?= $this->Html->script('bootstrap.min.js') ?>
 
-
+<style>
+    #dash {
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 <div class="ui left demo vertical inverted sidebar labeled icon menu">
@@ -36,7 +40,7 @@ $cakeDescription = 'Blog';
     <?= $this->Html->link('<i class="add square icon"></i>Add Article', ['controller' => 'Articles', 'action' => 'add'], ['class' => 'item', 'escape' => false]) ?>
 
 
-    <?= $this->Html->link('<i class="newspaper icon"></i>Articles', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'item', 'escape' => false]) ?>
+    <?= $this->Html->link('<i class="newspaper icon"></i>Articles', ['controller' => 'Articles', 'action' => 'adindex'], ['class' => 'item', 'escape' => false]) ?>
 
 
     <?= $this->Html->link('<i class="comments outline icon"></i>Comments', ['controller' => 'Comments', 'action' => 'index'], ['class' => 'item', 'escape' => false]) ?>
@@ -51,89 +55,58 @@ $cakeDescription = 'Blog';
 </div>
 <div class="pusher">
 
+    <div class="ui large menu stackable container inverted">
+        <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
 
-    <div class="ui stackable container menu inverted">
-        <div class="ui inverted secondary pointing menu">
-            <a class="item">
-                Home
-            </a>
-            <a class="item active">
-                Messages
-            </a>
-            <a class="item">
-                Friends
-            </a>
-        </div>
+            <a id="dash" class="navbar-brand">Dashboard</a>
+        <?php endif; ?>
+
+        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'item active']) ?>
+
+        <a class="item">
+            About
+        </a>
+        <a class="item">
+            Contact
+        </a>
+
+
+        <?php if (!isset($loggedUser)): ?>
+            <div class="right menu">
+                <div class="item">
+                    <div class="ui inverted button">
+                        <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login', 'class' => 'ui primary button']) ?>
+
+                    </div>
+
+                </div>
+                <div class="item">
+                    <div class="ui inverted button">
+                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
+                    </div>
+                </div>
+
+            </div>
+
+        <?php endif; ?>
+
+        <?php if (isset($loggedUser)): ?>
+
+            <div class="right menu">
+                <div id="drop" class="ui simple dropdown item ">
+                    <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'view', $loggedUser['id']], [ 'class' => 'profile-btn item']) ?>
+                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'],  ['class' => 'profile-btn item']) ?>
+                    </div>
+                </div>
+
+            </div>
+        <?php endif; ?>
+
     </div>
 
 
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
-
-                <a id="dash" class="navbar-brand">Dashboard</a>
-            <?php endif; ?>
-            <a class="navbar-brand" href="/">Blog</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <?= $this->Html->link('Articles', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'active']) ?>
-                </li>
-                <li>
-                    <a href="">About</a>
-                </li>
-                <li>
-                    <a href="">Contact</a>
-                </li>
-            </ul>
-            <?php if (!isset($loggedUser)): ?>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <?= $this->Html->link('Connection', ['controller' => 'Users', 'action' => 'login']) ?>
-                    </li>
-                    <li>
-                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
-                    </li>
-                </ul>
-            <?php endif; ?>
-
-            <?php if (isset($loggedUser)): ?>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false"><?= $loggedUser['username'] ?> <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'view', $loggedUser['id']]) ?></li>
-                            <li><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?></li>
-                        </ul>
-                    </li>
-                </ul>
-                <?php if ($loggedUser['role'] === 'admin') : ?>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><?= $this->Html->link('Dashboard', ['controller' => 'Pages', 'action' => 'display', 'dashboard']); ?></li>
-                    </ul>
-                <?php endif; ?>
-
-            <?php endif; ?>
-
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
 <?= $this->Flash->render() ?>
 
 
@@ -147,12 +120,27 @@ $cakeDescription = 'Blog';
 </div>
 
 <script>
+
+
     $(function () {
+        //menu dropdown
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+
+        //dropdown links
+        $('.profile-btn').on('click', function () {
+            window.location = $(this).attr('href');
+        });
+
+        //dash link
         $('#dash').on('click', function () {
             $('.ui.labeled.icon.sidebar')
                 .sidebar('toggle')
             ;
-        })
+        });
+
+
     })
 
 </script>
