@@ -51,10 +51,13 @@ class ArticlesController extends AppController
     public function blogindex()
     {
 
-        $this->viewBuilder()->layout(false);
         $this->paginate = [
             'contain' => ['Users', 'Comments.Users'],
-            'conditions' => ['published' => 1]
+            'conditions' => ['published' => 1],
+            'limit' => 5,
+            'order' => [
+                'created' => 'desc'
+            ]
         ];
         $articles = $this->paginate($this->Articles);
 

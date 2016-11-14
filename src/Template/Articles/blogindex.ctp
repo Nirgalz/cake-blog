@@ -49,89 +49,128 @@ function nestedComments($childComments, $comment)
 ?>
 
 
-<?php foreach ($articles as $article) : ?>
+
+<div class="row">
+    <div class="col-md-8 col-sm-12">
+        <div id="articles">
+
+            <?php foreach ($articles as $article) : ?>
 
 
 
 
-    <h4 class="ui top attached inverted header">
-        <?= $article->title ?>
-        <p class="pull-right">
-            <?= $article->created ?>
-        </p>
-    </h4>
-    <div class="ui attached segment">
-        <?= $article->body ?>
-    </div>
-    <div class="ui bottom attached segment">
-        <div class="ui comments">
-            <div class="comment">
-                <a class="avatar">
-                    <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
-                </a>
-                <div class="content">
-                    <a class="author"><?= $article->user->username ?></a>
+                <h4 class="ui top attached inverted header">
+                    <?= $article->title ?>
+                    <p class="pull-right">
+                        <?= $article->created ?>
+                    </p>
+                </h4>
+                <div class="ui attached segment">
+                    <?= $article->body ?>
                 </div>
-            </div>
-        </div>
-        <h3 class="ui dividing header">Comments</h3>
-
-        <div id="toggle-article-<?= $article->id ?>" class="add-comment btn btn-default">Reply</div>
-        <form id="form-article-<?= $article->id ?>" class="ui reply form hideit" style="display: none;">
-            <div class="field">
-                <textarea id="article-<?= $article->id ?>"></textarea>
-            </div>
-            <div onclick="submitComment(<?= $article->id ?>, null)" class="ui blue labeled submit icon button">
-                <i class="icon edit"></i> Add Reply
-            </div>
-        </form>
-
-
-        <?php if (!empty($article->comments)) : ?>
-            <div class="ui comments">
-                <h3 class="ui dividing header">Comments</h3>
-                <?php foreach ($article->comments as $comment) : ?>
-                    <?php if ($comment->comment_id == null) : ?>
+                <div class="ui bottom attached segment">
+                    <div class="ui comments">
                         <div class="comment">
                             <a class="avatar">
                                 <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
                             </a>
                             <div class="content">
-                                <a class="author"><?= $comment->user->username ?></a>
-                                <div class="metadata">
-                                    <span class="date"><?= $comment->created ?></span>
-                                </div>
-                                <div class="text">
-                                    <p><?= $comment->body ?></p>
-                                </div>
-                                <div class="actions">
-                                    <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment">Reply</a>
-                                </div>
+                                <a class="author"><?= $article->user->username ?></a>
                             </div>
-                            <form id="form-comment-<?= $comment->id ?>" class="ui reply form hideit"
-                                  style="display: none;">
-                                <div class="field">
-                                    <textarea id="comment-<?= $comment->id ?>"></textarea>
-                                </div>
-                                <div onclick="submitComment(<?= $article->id ?>, <?= $comment->id ?>)"
-                                     class="ui blue labeled submit icon button">
-                                    <i class="icon edit"></i> Add Reply
-                                </div>
-                            </form>
-                            <?php nestedComments($childComments, $comment) ?>
+                        </div>
+                    </div>
+                    <h3 class="ui dividing header">Comments</h3>
+
+                    <div id="toggle-article-<?= $article->id ?>" class="add-comment btn btn-default">Reply</div>
+                    <form id="form-article-<?= $article->id ?>" class="ui reply form hideit" style="display: none;">
+                        <div class="field">
+                            <textarea id="article-<?= $article->id ?>"></textarea>
+                        </div>
+                        <div onclick="submitComment(<?= $article->id ?>, null)" class="ui blue labeled submit icon button">
+                            <i class="icon edit"></i> Add Reply
+                        </div>
+                    </form>
+
+
+                    <?php if (!empty($article->comments)) : ?>
+                        <div class="ui comments">
+                            <h3 class="ui dividing header">Comments</h3>
+                            <?php foreach ($article->comments as $comment) : ?>
+                                <?php if ($comment->comment_id == null) : ?>
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
+                                        </a>
+                                        <div class="content">
+                                            <a class="author"><?= $comment->user->username ?></a>
+                                            <div class="metadata">
+                                                <span class="date"><?= $comment->created ?></span>
+                                            </div>
+                                            <div class="text">
+                                                <p><?= $comment->body ?></p>
+                                            </div>
+                                            <div class="actions">
+                                                <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment">Reply</a>
+                                            </div>
+                                        </div>
+                                        <form id="form-comment-<?= $comment->id ?>" class="ui reply form hideit"
+                                              style="display: none;">
+                                            <div class="field">
+                                                <textarea id="comment-<?= $comment->id ?>"></textarea>
+                                            </div>
+                                            <div onclick="submitComment(<?= $article->id ?>, <?= $comment->id ?>)"
+                                                 class="ui blue labeled submit icon button">
+                                                <i class="icon edit"></i> Add Reply
+                                            </div>
+                                        </form>
+                                        <?php nestedComments($childComments, $comment) ?>
+
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
 
                         </div>
                     <?php endif; ?>
-                <?php endforeach; ?>
 
 
+                </div>
+
+            <?php endforeach; ?>
+
+            <div class="paginator">
+                <ul class="pagination">
+                    <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                    <?= $this->Paginator->numbers() ?>
+                    <?= $this->Paginator->next(__('next') . ' >') ?>
+                </ul>
+                <p><?= $this->Paginator->counter() ?></p>
             </div>
-        <?php endif; ?>
-
-
+        </div>
     </div>
+    <div class="col-md-4 col-sm12">
+        <div id="recherche">
+            <h4 class="ui top attached inverted header">Search the blog</h4>
+            <div class="ui attached segment bottom">
+                <div class="ui category search">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" placeholder="Search the blog...">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+            </div>
+        </div>
 
-<?php endforeach; ?>
+        <div id="tags"></div>
+        <div id="comments"></div>
+    </div>
+</div>
+
+
+
+
+
 
 <style>
     /*******************************
@@ -149,10 +188,21 @@ function nestedComments($childComments, $comment)
     }
 </style>
 
+
+
 <script>
 
 
     $(function () {
+        //loads tags list
+        var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'tagbox']); ?>';
+        $('#tags').load(tagsUrl);
+
+        //loads last comments
+        var commentsUrl = '<?= $this->Url->build(['controller' => 'Comments', 'action' => 'commentbox']); ?>';
+        $('#comments').load(commentsUrl);
+
+
         //toggles add comment forms
         $('.add-comment').on('click', function () {
             var data = $(this).attr('id').split('-');

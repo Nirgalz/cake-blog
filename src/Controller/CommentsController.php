@@ -50,8 +50,8 @@ class CommentsController extends AppController
         $this->viewBuilder()->layout(false);
 
         $comments = $this->Comments->find('all', [
-            'contain' => ['Users', 'Articles', 'ParentComments']
-        ])->order('Comments.created', 'DESC');
+            'contain' => ['Users', 'Articles']
+            ])->order(['Comments.created' => 'DESC'])->limit(10);
 
         $this->set(compact('comments'));
         $this->set('_serialize', ['comments']);
