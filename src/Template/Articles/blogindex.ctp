@@ -55,12 +55,12 @@ function nestedComments($childComments, $comment)
 
             <?php foreach ($articles as $article) : ?>
 
-                <h4 class="ui top attached inverted header">
+                <h3 class="ui top attached inverted header">
                     <?= $article->title ?>
                     <p class="pull-right">
                         <?= $article->created ?>
                     </p>
-                </h4>
+                </h3>
                 <div class="ui attached segment">
                     <div class="ui comments">
                         <div class="comment">
@@ -68,7 +68,7 @@ function nestedComments($childComments, $comment)
                                 <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
                             </a>
                             <div class="content">
-                                <a class="author"><?= $article->user->username ?></a>
+                                <a class="author"><?= $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) ?></a>
 
                             </div>
                         </div>

@@ -1,43 +1,83 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="users view large-9 medium-8 columns content">
-    <h3><?= h($user->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Username') ?></th>
-            <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Role') ?></th>
-            <td><?= h($user->role) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($user->created) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($user->modified) ?></td>
-        </tr>
-    </table>
+<style>
+    img {
+        width: 50%;
+    }
+    #picture-profile {
+        text-align: center;
+    }
+</style>
+
+
+<div class="ui attached message">
+    <div class="header">
+        <div class="ui comments">
+            <div class="comment">
+                <a class="avatar">
+                    <?= $this->Html->image('../files/Users/photo/' . $user->photo) ?>
+                </a>
+                <div class="content">
+                    <a class="author"><?=$user->username?></a>
+
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
 </div>
-<?= $this->Html->image('../files/Users/photo/' . $user->photo)?>
+<div class="ui grid">
+    <div class="eight wide column">
+
+        <h4 class="ui top attached inverted header">Last Articles</h4>
+        <div class="ui attached segment bottom">
+            <table class="ui selectable celled table">
+                <tbody>
+
+                <?php foreach ($user->articles as $article) : ?>
+                    <tr><td class="article-btn" id="article-btn-<?= $article->id ?>"><?= $article->title ?></td></tr>
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div id="picture-profile" class="eight wide column">
+
+        <h4 class="ui top attached inverted header">Last comments</h4>
+        <div class="ui attached segment bottom">
+            <table class="ui selectable celled table">
+                <tbody>
+
+                <?php foreach ($user->comments as $comment) : ?>
+                    <tr><td class="comment-btn" id="comment-btn-<?= $comment->article_id ?>">Article : <?= $comment->article->title ?></td></tr>
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+<style>
+    .comment-btn,.article-btn {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+
+    $('.article-btn').on('click', function () {
+        var id = $(this).attr('id').split('-');
+        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[2];
+    })
+
+    $('.comment-btn').on('click', function () {
+        var id = $(this).attr('id').split('-');
+        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[2];
+    })
+</script>
