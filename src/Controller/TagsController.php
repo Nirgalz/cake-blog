@@ -31,7 +31,7 @@ class TagsController extends AppController
 
         $this->viewBuilder()->layout(false);
 
-        $tags = $this->Tags->find();
+        $tags = $this->Tags->find()->contain(['Articles']);
 
         $this->set(compact('tags'));
         $this->set('_serialize', ['tags']);

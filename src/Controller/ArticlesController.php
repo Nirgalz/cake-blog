@@ -48,22 +48,44 @@ class ArticlesController extends AppController
         $this->set('_serialize', ['articles']);
     }
 
-    public function blogindex()
+    public function blogindex($id = null)
     {
 
-        $this->paginate = [
-            'contain' => ['Users', 'Comments.Users'],
-            'conditions' => ['published' => 1],
-            'limit' => 5,
-            'order' => [
-                'created' => 'desc'
-            ]
-        ];
-        $articles = $this->paginate($this->Articles);
+        if (isset($id)) {
+            $this->paginate = [
+                'contain' => ['Users', 'Comments.Users'],
+                'conditions' => ['published' => 1],
+                'limit' => 5,
+                'order' => [
+                    'created' => 'desc'
+                ]
+            ];
+            $articles = $this->paginate($this->Articles->find()->matching('Tags', function(\Cake\ORM\Query $q) use ($id) {
+                return $q->where([
+                    'Tags.id' => $id
+                ]);
+            }));
 
-        $childComments = $this->Articles->Comments->find('all', [
-            'contain' => 'Users'
-        ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+            $childComments = $this->Articles->Comments->find('all', [
+                'contain' => 'Users'
+            ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+        } else {
+            $this->paginate = [
+                'contain' => ['Users', 'Comments.Users'],
+                'conditions' => ['published' => 1],
+                'limit' => 5,
+                'order' => [
+                    'created' => 'desc'
+                ]
+            ];
+            $articles = $this->paginate($this->Articles);
+
+            $childComments = $this->Articles->Comments->find('all', [
+                'contain' => 'Users'
+            ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
+        }
+
+
 
         $this->set(compact('articles', 'childComments'));
         $this->set('_serialize', ['articles']);

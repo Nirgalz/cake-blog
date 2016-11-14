@@ -23,7 +23,6 @@ $cakeDescription = 'Blog';
 
 
     <?= $this->Html->script('jquery.min.js') ?>
-    <?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
 
     <?= $this->Html->script('bootstrap.min.js') ?>
 
@@ -90,7 +89,7 @@ $cakeDescription = 'Blog';
         <?php if (isset($loggedUser)): ?>
 
             <div class="right menu">
-                <div id="drop" class="ui simple dropdown item ">
+                <div id="drop" class="ui dropdown item ">
                     <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
                     <div class="menu">
                         <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'edit', $loggedUser['id']], [ 'class' => 'profile-btn item']) ?>
@@ -114,6 +113,7 @@ $cakeDescription = 'Blog';
 <footer>
 </footer>
 </div>
+<?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
 
 <script>
 

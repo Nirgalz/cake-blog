@@ -1,8 +1,13 @@
+
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>tinymce.init({
+        selector:'textarea',
+        height : 400
+    });
+</script>
 
 
-<div class="col-md-8">
+<div class="col-md-12">
     <div class="ui attached message">
         <div class="header">
             Add an article
@@ -23,6 +28,7 @@
         <?=$this->Form->checkbox('published', ['class' => 'form-control']); ?>
         </div>
 
+
     <div class="field">
 
         <?php
@@ -35,6 +41,11 @@
 
 <script>
     $(function () {
+        $('.tag.example .ui.dropdown')
+            .dropdown({
+                allowAdditions: true
+            })
+        ;
         $('#body').removeAttr('required');
     })
 </script>
