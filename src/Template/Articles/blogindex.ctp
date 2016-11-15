@@ -12,7 +12,7 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="../../files/Users/photo/' . $childComment->user->photo . '">
+                    <img src="/blog/files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
                     <a class="author">' . spaceKiller($childComment->user->username) . '</a>
