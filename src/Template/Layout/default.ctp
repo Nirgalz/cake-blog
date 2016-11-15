@@ -61,7 +61,7 @@ $cakeDescription = 'Blog';
             <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
-        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'index'], ['class' => 'item active']) ?>
+        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'blogindex'], ['class' => 'item active']) ?>
 
         <a class="item">
             About
@@ -81,16 +81,12 @@ $cakeDescription = 'Blog';
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="ui inverted button">
-                        <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login', 'class' => 'ui primary button']) ?>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ui inverted button">
-                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
-                    </div>
-                </div>
+
+                        <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
+
+
+                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
+
             </div>
 
         <?php endif; ?>
@@ -138,6 +134,18 @@ $cakeDescription = 'Blog';
 
 
     $(function () {
+
+        //search form
+        $('#search-form').keypress(function (e) {
+            var search = $('#search-form').val();
+            if (e.which == 13) {
+                window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/'+ search;
+
+            }
+        });
+
+
+
         //menu dropdown
         $('.ui.dropdown').dropdown({
             on: 'hover'

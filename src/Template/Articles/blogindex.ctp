@@ -1,4 +1,9 @@
 <?php
+
+function spaceKiller($blackHole) {
+    return str_replace(" ", "-", $blackHole);
+}
+
 function nestedComments($childComments, $comment)
 {
     echo '<div class="comments">';
@@ -10,7 +15,7 @@ function nestedComments($childComments, $comment)
                     <img src="../../files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
-                    <a class="author">' . $childComment->user->username . '</a>
+                    <a class="author">' . spaceKiller($childComment->user->username) . '</a>
                     <div class="metadata">
                         <span class="date">' . $childComment->created . '</span>
                     </div>
@@ -68,7 +73,7 @@ function nestedComments($childComments, $comment)
                                 <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
                             </a>
                             <div class="content">
-                                <a class="author"><?= $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) ?></a>
+                                <a class="author"><?= spaceKiller($article->user->username); ?></a>
 
                             </div>
                         </div>
@@ -145,7 +150,7 @@ function nestedComments($childComments, $comment)
                                             <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
                                         </a>
                                         <div class="content">
-                                            <a class="author"><?= $comment->user->username ?></a>
+                                            <a class="author"><?=spaceKiller($comment->user->username); ?></a>
                                             <div class="metadata">
                                                 <span class="date"><?= $comment->created ?></span>
                                             </div>
@@ -193,7 +198,7 @@ function nestedComments($childComments, $comment)
                 <tbody>
                 <?php foreach ($tags as $tag) : ?>
                     <tr>
-                        <td class="tag-btn" id="tag-btn-<?= $tag->id ?>"><?= $tag->name ?> (<?= count($tag->articles) ?>
+                        <td class="tag-btn" id="tag-btn-<?= $tag->name ?>"><?= $tag->name ?> (<?= count($tag->articles) ?>
                             )
                         </td>
                     </tr>
@@ -212,7 +217,7 @@ function nestedComments($childComments, $comment)
 
                 <?php foreach ($comments as $comment) : ?>
                     <tr>
-                        <td class="comment-btn" id="comment-btn-<?= $comment->article_id ?>">Article
+                        <td class="comment-btn" id="<?= spaceKiller($comment->article->title) ?>">Article
                             : <?= $comment->article->title ?> - comment
                             :<?= $comment->body ?></td>
                     </tr>
@@ -258,12 +263,9 @@ function nestedComments($childComments, $comment)
     $(function () {
 
 
-        $('#search-form').keypress(function (e) {
-            var search = $('#search-form').val();
-            if (e.which == 13) {
-                window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/'+ search;
-
-            }
+        $('.author').on('click', function (event) {
+            event.preventDefault();
+            window.location = '<?= $this->Url->build(["controller" => "Users", "action" => "view"])?>' + '/'+ $(this).text();
         });
 
 
@@ -272,22 +274,14 @@ function nestedComments($childComments, $comment)
             window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "blogindex"])?>' + '/'+ id[2];
         });
         $('.comment-btn').on('click', function () {
-            var id = $(this).attr('id').split('-');
-            window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[2];
+            var id = $(this).attr('id');
+            window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id;
         });
 
 
         $('.ui.dropdown').dropdown({
             on: 'hover'
         });
-
-        //loads tags list
-        var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'tagbox']); ?>';
-        $('#tags').load(tagsUrl);
-
-        //loads last comments
-        var commentsUrl = '<?= $this->Url->build(['controller' => 'Comments', 'action' => 'commentbox']); ?>';
-        $('#comments').load(commentsUrl);
 
 
         //toggles add comment forms

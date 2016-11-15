@@ -50,7 +50,26 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-    $routes->connect('/articles/', ['controller' => 'Articles', 'action' => 'blogindex']);
+    $routes->connect('/articles/*', ['controller' => 'Articles', 'action' => 'blogindex']);
+
+    $routes->connect(
+        '/article/*',
+        ['controller' => 'Articles', 'action' => 'view'],
+        ['pass' => ['name']]
+    );
+
+    $routes->connect(
+        '/tag/*',
+        ['controller' => 'Articles', 'action' => 'blogindex'],
+        ['pass' => ['tag']]
+    );
+
+    $routes->connect(
+        '/users/*',
+        ['controller' => 'Users', 'action' => 'view'],
+        ['pass' => ['name']]
+    );
+
 
 
     /**

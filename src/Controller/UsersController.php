@@ -71,11 +71,13 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($name = null)
     {
-        $user = $this->Users->get($id, [
+        $name = str_replace("-", " ", $name);
+
+        $user = $this->Users->find('all', [
             'contain' => ['Articles', 'Comments.Articles']
-        ]);
+        ])->where(['username' => $name])->first();
 
         $this->set('user', $user);
         $this->set('_serialize', ['user']);

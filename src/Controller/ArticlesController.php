@@ -60,10 +60,10 @@ class ArticlesController extends AppController
         $this->set('_serialize', ['articles']);
     }
 
-    public function blogindex($id = null)
+    public function blogindex($tag = null)
     {
 
-        if (isset($id)) {
+        if (isset($tag)) {
             $this->paginate = [
                 'contain' => ['Users', 'Comments.Users', 'Tags'],
                 'conditions' => ['published' => 1],
@@ -72,9 +72,9 @@ class ArticlesController extends AppController
                     'created' => 'desc'
                 ]
             ];
-            $articles = $this->paginate($this->Articles->find()->matching('Tags', function(\Cake\ORM\Query $q) use ($id) {
+            $articles = $this->paginate($this->Articles->find()->matching('Tags', function(\Cake\ORM\Query $q) use ($tag) {
                 return $q->where([
-                    'Tags.id' => $id
+                    'Tags.name' => $tag
                 ]);
             }));
 
@@ -117,11 +117,14 @@ class ArticlesController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($name = null)
     {
-        $article = $this->Articles->get($id, [
+        $name = str_replace("-", " ", $name);
+
+
+        $article = $this->Articles->find('all', [
             'contain' => ['Users', 'Tags', 'Comments.Users']
-        ]);
+        ])->where(['title' => $name])->first();
 
         $childComments = $this->Articles->Comments->find('all', [
             'contain' => 'Users'
