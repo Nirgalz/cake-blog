@@ -35,7 +35,7 @@
         echo $this->Form->input('tags._ids', ['options' => $tags]);
         ?>
         </div>
-    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-default']) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'ui blue button']) ?>
     <?= $this->Form->end() ?>
 </div>
 

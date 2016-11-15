@@ -17,15 +17,15 @@
             <?php foreach ($comments as $comment): ?>
             <tr>
                 <td><?= $this->Number->format($comment->id) ?></td>
-                <td><?= $comment->has('user') ? $this->Html->link($comment->user->username, ['controller' => 'Users', 'action' => 'view', $comment->user->id]) : '' ?></td>
+                <td><?= $comment->has('user') ? $this->Html->link($comment->user->username, ['controller' => 'Users', 'action' => 'view', $comment->user->username]) : '' ?></td>
                 <td><?= $comment->has('article') ? $this->Html->link($comment->article->title, ['controller' => 'Articles', 'action' => 'view', $comment->article->id]) : '' ?></td>
                 <td><?= $comment->has('parent_comment') ? $this->Html->link($comment->parent_comment->id, ['controller' => 'Comments', 'action' => 'view', $comment->parent_comment->id]) : '' ?></td>
                 <td><?= h($comment->created) ?></td>
                 <td><?= h($comment->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $comment->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $comment->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
+                    <?= $this->Html->link('<i class="icon unhide"></i>View', ['action' => 'view', $comment->id], ['class' => 'ui small button', 'escape' => false]) ?>
+                    <?= $this->Html->link('<i class="icon edit"></i>Edit', ['action' => 'edit', $comment->id], ['class' => 'ui small button', 'escape' => false]) ?>
+                    <?= $this->Form->postLink('<i class="icon remove"></i>Delete', ['action' => 'delete', $comment->id],['class' => 'ui small button', 'escape' => false], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
