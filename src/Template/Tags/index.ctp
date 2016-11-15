@@ -1,6 +1,8 @@
 
 <div class="tags index large-9 medium-8 columns content">
     <h3><?= __('Tags') ?></h3>
+    <button id="add-tag" class="ui button"><i class="icon tags"></i>Add a Tag</button>
+
     <table cellpadding="0" cellspacing="0" class="table table-responsive table-hover">
         <thead>
             <tr>
@@ -32,3 +34,10 @@
         <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>
+
+<script>
+    $('#add-tag').on('click', function () {
+        window.location = '<?= $this->Url->build(["controller" => "Tags", "action" => "add"])?>';
+
+    })
+</script>

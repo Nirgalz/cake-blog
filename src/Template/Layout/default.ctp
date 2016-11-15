@@ -14,7 +14,7 @@ $cakeDescription = 'Blog';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('bootstrap.min.css') ?>
-    <?= $this->Html->css('../semantic-ui/dist/semantic.min.css') ?>
+    <?= $this->Html->css('semantic.min.css') ?>
 
 
     <?= $this->fetch('meta') ?>
@@ -23,7 +23,7 @@ $cakeDescription = 'Blog';
 
 
     <?= $this->Html->script('jquery.min.js') ?>
-    <?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
+    <?= $this->Html->script('semantic.min.js') ?>
 
     <?= $this->Html->script('bootstrap.min.js') ?>
 
@@ -64,12 +64,10 @@ $cakeDescription = 'Blog';
         <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'item active']) ?>
         <?= $this->Html->link('Blog', ['controller' => 'Articles', 'action' => 'blogindex'], ['class' => 'item']) ?>
 
-        <a class="item">
-            About
-        </a>
-        <a class="item">
-            Contact
-        </a>
+            <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['class' => 'item']) ?>
+
+            <?= $this->Html->link('Contact', ['controller' => 'Contact', 'action' => 'index'], ['class' => 'item']) ?>
+
 
 
         <?php if (!isset($loggedUser)): ?>

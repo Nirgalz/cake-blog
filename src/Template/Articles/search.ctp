@@ -1,3 +1,9 @@
+<?php
+
+function spaceKiller($blackHole) {
+    return str_replace(" ", "-", $blackHole);
+} ?>
+
 <div class="ui top  segment">
     <h4>Results for : <?= $search?></h4>
 </div>
@@ -14,7 +20,7 @@
         <tbody>
         <?php foreach ($articles as $article): ?>
             <tr>
-                <td class="article-btn" id="article-btn-<?= $article->id ?>"><?= h($article->title) ?></td>
+                <td class="article-btn" id="<?= spaceKiller($article->title)?>"><?= h($article->title) ?></td>
                 <td><?= h($article->created) ?></td>
                 <td><?= $article->has('user') ? $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->username]) : '' ?></td>
 
@@ -41,7 +47,7 @@
 
 <script>
     $('.article-btn').on('click', function () {
-        var id = $(this).attr('id').split('-');
-        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[2];
+        var id = $(this).attr('id');
+        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id;
     });
 </script>

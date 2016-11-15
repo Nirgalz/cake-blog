@@ -7,7 +7,7 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="../../files/Users/photo/' . $childComment->user->photo . '">
+                    <img src="blog/files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
                     <a class="author">' . $childComment->user->username . '</a>
@@ -193,14 +193,6 @@ function nestedComments($childComments, $comment)
         $('.ui.dropdown').dropdown({
             on: 'hover'
         });
-
-        //loads tags list
-        var tagsUrl = '<?= $this->Url->build(['controller' => 'Tags', 'action' => 'tagbox']); ?>';
-        $('#tags').load(tagsUrl);
-
-        //loads last comments
-        var commentsUrl = '<?= $this->Url->build(['controller' => 'Comments', 'action' => 'commentbox']); ?>';
-        $('#comments').load(commentsUrl);
 
 
         //toggles add comment forms

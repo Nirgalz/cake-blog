@@ -50,28 +50,37 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-    $routes->connect('/blog/*', ['controller' => 'Articles', 'action' => 'blogindex']);
+    $routes->connect('/about', ['controller' => 'Pages', 'action' => 'display', 'about']);
+
+    $routes->connect('/articles/*', ['controller' => 'Articles', 'action' => 'blogindex']);
+    $routes->connect('/articles/add', ['controller' => 'Articles', 'action' => 'add']);
+    $routes->connect('/admin/articles/', ['controller' => 'Articles', 'action' => 'adindex']);
+    $routes->connect('/admin/comments/', ['controller' => 'Comments', 'action' => 'index']);
+    $routes->connect('/admin/tags/', ['controller' => 'Tags', 'action' => 'index']);
+    $routes->connect('/admin/users/', ['controller' => 'Users', 'action' => 'index']);
+
+
 
     $routes->connect(
-        '/blog/article/*',
+        '/article/*',
         ['controller' => 'Articles', 'action' => 'view'],
         ['pass' => ['name']]
     );
 
     $routes->connect(
-        '/blog/search/*',
+        '/search/*',
         ['controller' => 'Articles', 'action' => 'search'],
         ['pass' => ['search']]
     );
 
     $routes->connect(
-        '/blog/tag/*',
+        '/tag/*',
         ['controller' => 'Articles', 'action' => 'blogindex'],
         ['pass' => ['tag']]
     );
 
     $routes->connect(
-        '/users/*',
+        '/user/*',
         ['controller' => 'Users', 'action' => 'view'],
         ['pass' => ['name']]
     );

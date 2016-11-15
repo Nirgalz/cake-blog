@@ -12,7 +12,7 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="../../files/Users/photo/' . $childComment->user->photo . '">
+                    <img src="/blog/files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
                     <a class="author">' . spaceKiller($childComment->user->username) . '</a>
@@ -251,7 +251,7 @@ function nestedComments($childComments, $comment)
     }
 </style>
 
-<?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
+<?= $this->Html->script('semantic.min.js') ?>
 
 
 <script>
