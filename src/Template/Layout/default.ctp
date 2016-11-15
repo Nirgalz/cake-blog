@@ -27,11 +27,11 @@ $cakeDescription = 'Blog';
 
     <?= $this->Html->script('bootstrap.min.js') ?>
 
-<style>
-    #dash {
-        cursor: pointer;
-    }
-</style>
+    <style>
+        #dash {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="ui left demo vertical inverted sidebar labeled icon menu">
@@ -61,12 +61,12 @@ $cakeDescription = 'Blog';
             <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
-        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'item active']) ?>
-        <?= $this->Html->link('Blog', ['controller' => 'Articles', 'action' => 'blogindex'], ['class' => 'item']) ?>
+        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['id' => 'home-nav', 'class' => 'item navb active']) ?>
+        <?= $this->Html->link('Blog', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb']) ?>
 
-            <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['class' => 'item']) ?>
+        <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
 
-            <?= $this->Html->link('Contact', ['controller' => 'Contact', 'action' => 'index'], ['class' => 'item']) ?>
+        <?= $this->Html->link('Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb']) ?>
 
 
 
@@ -81,10 +81,10 @@ $cakeDescription = 'Blog';
                     </div>
                 </div>
 
-                        <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
+                <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
 
 
-                        <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
+                <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
 
             </div>
 
@@ -104,8 +104,8 @@ $cakeDescription = 'Blog';
                 <div id="drop" class="ui simple dropdown item ">
                     <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
                     <div class="menu">
-                        <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'edit', $loggedUser['id']], [ 'class' => 'profile-btn item']) ?>
-                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'],  ['class' => 'profile-btn item']) ?>
+                        <?= $this->Html->link('Profile', ['controller' => 'Users', 'action' => 'edit', $loggedUser['id']], ['class' => 'profile-btn item']) ?>
+                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'profile-btn item']) ?>
                     </div>
                 </div>
             </div>
@@ -114,16 +114,16 @@ $cakeDescription = 'Blog';
     </div>
 
 
-<?= $this->Flash->render() ?>
+    <?= $this->Flash->render() ?>
 
 
-<div class="container clearfix">
+    <div class="container clearfix">
 
-    <?= $this->fetch('content') ?>
-</div>
+        <?= $this->fetch('content') ?>
+    </div>
 
-<footer>
-</footer>
+    <footer>
+    </footer>
 </div>
 <?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
 <?= $this->Html->script('../sharer/sharer.min.js') ?>
@@ -138,11 +138,10 @@ $cakeDescription = 'Blog';
         $('#search-form').keypress(function (e) {
             var search = $('#search-form').val();
             if (e.which == 13) {
-                window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/'+ search;
+                window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/' + search;
 
             }
         });
-
 
 
         //menu dropdown

@@ -262,6 +262,9 @@ function nestedComments($childComments, $comment)
 
     $(function () {
 
+        $('.navb').removeClass('active');
+        $('#blog-nav').addClass('active');
+
 
         $('.author').on('click', function (event) {
             event.preventDefault();
