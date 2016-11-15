@@ -251,7 +251,7 @@ function nestedComments($childComments, $comment)
     }
 </style>
 
-<?= $this->Html->script('../semantic-ui/dist/semantic.min.js') ?>
+<?= $this->Html->script('semantic.min.js') ?>
 
 
 <script>

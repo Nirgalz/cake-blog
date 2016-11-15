@@ -13,6 +13,7 @@ class ContactController extends AppController
         if ($this->request->is('post')) {
             if ($contact->execute($this->request->data)) {
                 $this->Flash->success('We will get back to you soon.');
+                $this->redirect($this->referer());
             } else {
                 $this->Flash->error('There was a problem submitting your form.');
             }

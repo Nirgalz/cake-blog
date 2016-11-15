@@ -19,7 +19,7 @@ class ContactForm extends Form
     protected function _buildValidator(Validator $validator)
     {
         return $validator->add('name', 'length', [
-            'rule' => ['minLength', 10],
+            'rule' => ['minLength', 4],
             'message' => 'A name is required'
         ])->add('email', 'format', [
             'rule' => 'email',
