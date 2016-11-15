@@ -16,7 +16,7 @@
             <tr>
                 <td class="article-btn" id="article-btn-<?= $article->id ?>"><?= h($article->title) ?></td>
                 <td><?= h($article->created) ?></td>
-                <td><?= $article->has('user') ? $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) : '' ?></td>
+                <td><?= $article->has('user') ? $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->username]) : '' ?></td>
 
             </tr>
         <?php endforeach; ?>

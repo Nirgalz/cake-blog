@@ -44,11 +44,11 @@ class AppController extends Controller
             'authorize' => ['Controller'],
             'loginRedirect' => [
                 'controller' => 'Articles',
-                'action' => 'index'
+                'action' => 'blogindex'
             ],
             'logoutRedirect' => [
                 'controller' => 'Articles',
-                'action' => 'index'
+                'action' => 'blogindex'
             ]
         ]);
     }

@@ -147,7 +147,7 @@ function nestedComments($childComments, $comment)
                                 <?php if ($comment->comment_id == null) : ?>
                                     <div class="comment">
                                         <a class="avatar">
-                                            <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
+                                            <?= $this->Html->image('../files/Users/photo/' . $comment->user->photo) ?>
                                         </a>
                                         <div class="content">
                                             <a class="author"><?=spaceKiller($comment->user->username); ?></a>

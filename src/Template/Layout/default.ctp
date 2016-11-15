@@ -61,7 +61,8 @@ $cakeDescription = 'Blog';
             <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
-        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'blogindex'], ['class' => 'item active']) ?>
+        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['class' => 'item active']) ?>
+        <?= $this->Html->link('Blog', ['controller' => 'Articles', 'action' => 'blogindex'], ['class' => 'item']) ?>
 
         <a class="item">
             About
