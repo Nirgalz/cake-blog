@@ -50,4 +50,4 @@ CREATE TABLE users
   photo_dir VARCHAR(255)
 );
 
-INSERT INTO blog.users (username, email, password, role, created, modified, photo, photo_dir) VALUES ('admin', 'mail@admin.com', '$2y$10$5MLd6azQPrZBJM8PNRDMBuY1J7B45tFHrYv29QeGDSNy4cgXivLf2', 'admin', '2016-11-15 09:58:33', '2016-11-15 09:58:33', 'default_avatar.png', 'webroot/files/Users/photo/');
+INSERT INTO users (username, email, password, role, created, modified, photo, photo_dir) VALUES ('admin', 'mail@admin.com', '$2y$10$5MLd6azQPrZBJM8PNRDMBuY1J7B45tFHrYv29QeGDSNy4cgXivLf2', 'admin', '2016-11-15 09:58:33', '2016-11-15 09:58:33', 'default_avatar.png', 'webroot/files/Users/photo/');
