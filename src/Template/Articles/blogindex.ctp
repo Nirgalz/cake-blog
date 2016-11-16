@@ -68,6 +68,7 @@ function nestedComments($childComments, $comment)
                 </h3>
                 <div class="ui attached segment">
                     <div class="ui comments">
+
                         <div class="comment">
                             <a class="avatar">
                                 <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
@@ -77,8 +78,10 @@ function nestedComments($childComments, $comment)
 
                             </div>
                         </div>
+
                         <br>
-                    </div>
+                </div>
+
 
                 </div>
                 <div class="ui attached segment">
@@ -232,9 +235,6 @@ function nestedComments($childComments, $comment)
 
 
 <style>
-    /*******************************
-           Overrides
-*******************************/
 
     .ui.comments .comment {
         border-radius: 0.5em;

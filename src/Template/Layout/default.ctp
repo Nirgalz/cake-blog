@@ -61,9 +61,14 @@ $cakeDescription = 'Blog';
             <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
-        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb']) ?>
+        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['id' => 'home-nav', 'class' => 'item navb']) ?>
 
+        <?= $this->Html->link('Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb']) ?>
+
+<!--
         <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
+
+-->
 
         <?= $this->Html->link('Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb']) ?>
 
@@ -139,8 +144,10 @@ $cakeDescription = 'Blog';
                 var menuItem = $('#about-nav');
             } else if (url.startsWith('/contact')) {
                 var menuItem = $('#contact-nav');
-            } else  if (url.startsWith('/')) {
+            } else  if (url.startsWith('/articles')) {
                 var menuItem = $('#blog-nav');
+            } else  if (url.startsWith('/')) {
+                var menuItem = $('#home-nav');
             }
 
             menuItem.addClass('active');
