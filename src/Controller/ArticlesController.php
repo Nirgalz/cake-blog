@@ -39,7 +39,10 @@ class ArticlesController extends AppController
     public function search($search = null) {
         $this->paginate = [
             'contain' => ['Users'],
-            'conditions' => ['body LIKE' => '%'.$search.'%']
+            'conditions' => ['OR' => [
+                ['body LIKE' => '%'.$search.'%'],
+                ['title LIKE' => '%'.$search.'%']
+            ]]
         ];
         $articles = $this->paginate($this->Articles);
 
