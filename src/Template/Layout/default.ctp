@@ -61,7 +61,7 @@ $cakeDescription = 'Blog';
             <a id="dash" class="item blue">Dashboard</a>
         <?php endif; ?>
 
-        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['id' => 'home-nav', 'class' => 'item navb active']) ?>
+        <?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home'], ['id' => 'home-nav', 'class' => 'item navb']) ?>
         <?= $this->Html->link('Blog', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb']) ?>
 
         <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
@@ -133,6 +133,24 @@ $cakeDescription = 'Blog';
 
 
     $(function () {
+
+        function activateNavMenu() {
+            var url = window.location.pathname;
+            if (url.startsWith('/articles')) {
+                var menuItem = $('#blog-nav');
+            } else if (url.startsWith('/about')) {
+                var menuItem = $('#about-nav');
+            } else if (url.startsWith('/contact')) {
+                var menuItem = $('#contact-nav');
+            } else  if (url.startsWith('/')) {
+                var menuItem = $('#home-nav');
+            }
+
+            menuItem.addClass('active');
+        }
+        activateNavMenu();
+
+
 
         //search form
         $('#search-form').keypress(function (e) {
