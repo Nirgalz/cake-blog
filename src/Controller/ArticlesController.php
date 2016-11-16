@@ -36,18 +36,36 @@ class ArticlesController extends AppController
      * @return \Cake\Network\Response|null
      */
 
-    public function search($search = null) {
+    public function search($search = null)
+    {
         $this->paginate = [
             'contain' => ['Users'],
             'conditions' => ['OR' => [
-                ['body LIKE' => '%'.$search.'%'],
-                ['title LIKE' => '%'.$search.'%']
+                ['body LIKE' => '%' . $search . '%'],
+                ['title LIKE' => '%' . $search . '%']
             ]]
         ];
         $articles = $this->paginate($this->Articles);
 
         $this->set(compact('articles', 'search'));
         $this->set('_serialize', ['articles']);
+    }
+
+    public function changepublished($id = null)
+    {
+
+        $this->autoRender = false;
+        $article = $this->Articles->get($id);
+
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $article = $this->Articles->patchEntity($article, $this->request->data);
+
+            $this->Articles->save($article);
+        }
+
+
+
     }
 
     public function adindex()
@@ -75,7 +93,7 @@ class ArticlesController extends AppController
                     'created' => 'desc'
                 ]
             ];
-            $articles = $this->paginate($this->Articles->find()->matching('Tags', function(\Cake\ORM\Query $q) use ($tag) {
+            $articles = $this->paginate($this->Articles->find()->matching('Tags', function (\Cake\ORM\Query $q) use ($tag) {
                 return $q->where([
                     'Tags.name' => $tag
                 ]);
@@ -106,7 +124,6 @@ class ArticlesController extends AppController
         $childComments = $this->Articles->Comments->find('all', [
             'contain' => 'Users'
         ])->where(['comment_id IS NOT' => 'NULL'])->toArray();
-
 
 
         $this->set(compact('articles', 'childComments', 'comments', 'tags'));

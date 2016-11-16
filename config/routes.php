@@ -54,6 +54,8 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/', ['controller' => 'Articles', 'action' => 'blogindex']);
     $routes->connect('/articles/add', ['controller' => 'Articles', 'action' => 'add']);
+    $routes->connect('/articles/edit', ['controller' => 'Articles', 'action' => 'edit']);
+
     $routes->connect('/admin/articles/', ['controller' => 'Articles', 'action' => 'adindex']);
     $routes->connect('/admin/comments/', ['controller' => 'Comments', 'action' => 'index']);
     $routes->connect('/admin/tags/', ['controller' => 'Tags', 'action' => 'index']);
