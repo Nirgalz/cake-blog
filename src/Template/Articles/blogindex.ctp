@@ -277,10 +277,6 @@ function nestedComments($childComments, $comment)
 
 <?= $this->Html->script('semantic.min.js') ?>
 
-
-<script>
-
-</script>
 <script>
 
 

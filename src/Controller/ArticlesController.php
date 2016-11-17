@@ -70,10 +70,14 @@ class ArticlesController extends AppController
 
     public function home() {
 
-        $articles = $this->Articles->find();
+        $articles = $this->Articles->find()->where(['published' => 1])->toArray();
 
-        $this->set(compact('articles'));
-        $this->set('_serialize', ['articles']);    }
+        $users = $this->Articles->Users->find()->toArray();
+        $comments = $this->Articles->Comments->find()->toArray();
+
+        $this->set(compact('articles', 'users', 'comments'));
+        $this->set('_serialize', ['articles']);
+    }
 
 
     public function adindex()
