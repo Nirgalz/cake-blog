@@ -5,7 +5,19 @@ function spaceKiller($blackHole)
     return str_replace(" ", "-", $blackHole);
 }
 
-function nestedComments($childComments, $comment)
+function authEditComment($childComment, $loggedUser)
+{
+
+    if (isset($loggedUser)) {
+        if ($loggedUser['role'] === 'admin' || $loggedUser['id'] === $childComment->user_id) {
+            return '<a id="toggle-edit-' . $childComment->id . '" class="reply edit-comment"><i class="ui icon edit"></i>Edit</a>
+                        <a onclick="submitDelete(' . $childComment->id . ')" id="delete-' . $childComment->id . '" class="reply delete-comment"><i class="ui icon remove">Delete</i></a>';
+        }
+    } else return '';
+}
+
+
+function nestedComments($childComments, $comment, $loggedUser)
 {
     echo '<div class="comments">';
     foreach ($childComments as $childComment) {
@@ -25,8 +37,7 @@ function nestedComments($childComments, $comment)
                     </div>
                     <div class="actions">
                         <a id="toggle-comment-' . $childComment->id . '" class="reply add-comment"><i class="ui icon reply"></i>Reply</a>
-                        <a id="toggle-edit-'. $childComment->id .'" class="reply edit-comment"><i class="ui icon edit"></i>Edit</a>
-                        <a onclick="submitDelete('. $childComment->id .')" id="delete-'.$childComment->id .'" class="reply delete-comment"><i class="ui icon remove">Delete</i></a>
+                        '. authEditComment($childComment, $loggedUser).'
                         
                     </div>
                 </div>
@@ -39,12 +50,12 @@ function nestedComments($childComments, $comment)
                         <i class="icon edit"></i> Add Reply
                     </div>
                 </form>
-                <form id="form-edit-'. $childComment->id .'" class="ui reply form hideit"
+                <form id="form-edit-' . $childComment->id . '" class="ui reply form hideit"
                                               style="display: none;">
                                             <div class="field">
-                                                <textarea id="edit-'. $childComment->id .'">'. h($childComment->body) .'</textarea>
+                                                <textarea id="edit-' . $childComment->id . '">' . h($childComment->body) . '</textarea>
                                             </div>
-                                            <div onclick="submitEdit('. $childComment->id .')"
+                                            <div onclick="submitEdit(' . $childComment->id . ')"
                                                  class="ui blue labeled submit icon button">
                                                 <i class="icon edit"></i> Edit Comment
                                             </div>
@@ -54,7 +65,7 @@ function nestedComments($childComments, $comment)
             foreach ($childComments as $child) {
                 if ($child->comment_id == $childComment->id) {
 
-                    nestedComments($childComments, $childComment);
+                    nestedComments($childComments, $childComment, $loggedUser);
                     break;
                 }
             }
@@ -177,10 +188,14 @@ function nestedComments($childComments, $comment)
                                             <div class="actions">
                                                 <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment"><i
                                                         class="ui icon reply"></i>Reply</a>
-                                                <a id="toggle-edit-<?= $comment->id ?>" class="reply edit-comment"><i
-                                                        class="ui icon edit"></i>Edit</a>
-                                                <?= $this->Form->postLink('<i class="icon remove"></i>Delete', ['controller' => 'Comments', 'action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id), 'class' => '', 'escape' => false, 'title' => 'delete']) ?>
-
+                                                <?php if (isset($loggedUser)): ?>
+                                                    <?php if ($loggedUser['id'] === $comment->user_id || $loggedUser['role'] === 'admin'): ?>
+                                                        <a id="toggle-edit-<?= $comment->id ?>"
+                                                           class="reply edit-comment"><i
+                                                                class="ui icon edit"></i>Edit</a>
+                                                        <?= $this->Form->postLink('<i class="icon remove"></i>Delete', ['controller' => 'Comments', 'action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id), 'class' => '', 'escape' => false, 'title' => 'delete']) ?>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
 
                                             </div>
                                         </div>
@@ -197,14 +212,15 @@ function nestedComments($childComments, $comment)
                                         <form id="form-edit-<?= $comment->id ?>" class="ui reply form hideit"
                                               style="display: none;">
                                             <div class="field">
-                                                <textarea id="edit-<?= $comment->id ?>"><?= h($comment->body) ?></textarea>
+                                                <textarea
+                                                    id="edit-<?= $comment->id ?>"><?= h($comment->body) ?></textarea>
                                             </div>
                                             <div onclick="submitEdit(<?= $comment->id ?>)"
                                                  class="ui blue labeled submit icon button">
                                                 <i class="icon edit"></i> Edit Comment
                                             </div>
                                         </form>
-                                        <?php nestedComments($childComments, $comment) ?>
+                                        <?php nestedComments($childComments, $comment, $loggedUser) ?>
                                     </div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -229,7 +245,7 @@ function nestedComments($childComments, $comment)
         <div class="ui attached segment bottom">
 
             <?php foreach ($tags as $tag) : ?>
-                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name . '  (' . count($tag->articles). ')', ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
+                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name . '  (' . count($tag->articles) . ')', ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
 
 
             <?php endforeach; ?>
@@ -245,8 +261,9 @@ function nestedComments($childComments, $comment)
 
                 <?php foreach ($comments as $comment) : ?>
                     <tr>
-                        <td class="comment-btn" id="<?= spaceKiller($comment->article->title) ?>"><i class="ui icon file"></i>
-                             <?= $comment->article->title ?> </td>
+                        <td class="comment-btn" id="<?= spaceKiller($comment->article->title) ?>"><i
+                                class="ui icon file"></i>
+                            <?= $comment->article->title ?> </td>
                     </tr>
                 <?php endforeach; ?>
 
