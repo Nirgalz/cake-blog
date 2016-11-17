@@ -119,6 +119,23 @@ class UsersController extends AppController
         $this->set('_serialize', ['user']);
     }
 
+    public function changerole($id = null)
+    {
+
+        $this->autoRender = false;
+        $article = $this->Users->get($id);
+
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $article = $this->Users->patchEntity($article, $this->request->data);
+
+            $this->Users->save($article);
+        }
+
+
+
+    }
+
     public function register()
     {
 
