@@ -1,4 +1,5 @@
-
+<!--<script src="https://npmcdn.com/nlp_compromise@latest/builds/nlp_compromise.min.js"></script>
+-->
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>tinymce.init({
         selector:'textarea',
@@ -47,5 +48,13 @@
             })
         ;
         $('#body').removeAttr('required');
+
+      /*  $('.button').on('click', function (e) {
+            e.preventDefault();
+            var text = tinymce.get('body').getContent();
+        })*/
     })
+
+
+
 </script>

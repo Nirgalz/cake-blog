@@ -68,6 +68,18 @@ class ArticlesController extends AppController
 
     }
 
+    public function home() {
+
+        $articles = $this->Articles->find()->where(['published' => 1])->toArray();
+
+        $users = $this->Articles->Users->find()->toArray();
+        $comments = $this->Articles->Comments->find()->toArray();
+
+        $this->set(compact('articles', 'users', 'comments'));
+        $this->set('_serialize', ['articles']);
+    }
+
+
     public function adindex()
     {
 
@@ -186,11 +198,15 @@ class ArticlesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($name = null)
     {
-        $article = $this->Articles->get($id, [
-            'contain' => ['Tags']
-        ]);
+        $name = str_replace("-", " ", $name);
+
+
+        $article = $this->Articles->find('all', [
+            'contain' => ['Users', 'Tags', 'Comments.Users']
+        ])->where(['title' => $name])->first();
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $article = $this->Articles->patchEntity($article, $this->request->data);
             if ($this->Articles->save($article)) {

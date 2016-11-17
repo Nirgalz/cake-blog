@@ -49,14 +49,15 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Articles', 'action' => 'home']);
     $routes->connect('/about', ['controller' => 'Pages', 'action' => 'display', 'about']);
 
     $routes->connect('/articles/*', ['controller' => 'Articles', 'action' => 'blogindex']);
 
 
     $routes->connect('/articles/add', ['controller' => 'Articles', 'action' => 'add']);
-    $routes->connect('/articles/edit', ['controller' => 'Articles', 'action' => 'edit']);
+    $routes->connect('/articles/edit/:name', ['controller' => 'Articles', 'action' => 'edit'],
+        ['pass' => ['name']]);
 
     $routes->connect('/admin/articles/', ['controller' => 'Articles', 'action' => 'adindex']);
     $routes->connect('/admin/comments/', ['controller' => 'Comments', 'action' => 'index']);
@@ -66,7 +67,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect(
-        '/article/*',
+        '/article/:name',
         ['controller' => 'Articles', 'action' => 'view'],
         ['pass' => ['name']]
     );
@@ -79,7 +80,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect(
-        '/user/*',
+        '/user/:name',
         ['controller' => 'Users', 'action' => 'view'],
         ['pass' => ['name']]
     );
