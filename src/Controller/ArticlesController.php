@@ -186,11 +186,15 @@ class ArticlesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($name = null)
     {
-        $article = $this->Articles->get($id, [
-            'contain' => ['Tags']
-        ]);
+        $name = str_replace("-", " ", $name);
+
+
+        $article = $this->Articles->find('all', [
+            'contain' => ['Users', 'Tags', 'Comments.Users']
+        ])->where(['title' => $name])->first();
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $article = $this->Articles->patchEntity($article, $this->request->data);
             if ($this->Articles->save($article)) {
@@ -219,12 +223,13 @@ class ArticlesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
         if ($this->Articles->delete($article)) {
+            $this->redirect($this->referer());
+
             $this->Flash->success(__('The article has been deleted.'));
         } else {
             $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
     }
 
 

@@ -75,8 +75,7 @@ $cakeDescription = 'Blog';
 
 
         <?php if (!isset($loggedUser)): ?>
-            <div class="right menu">
-                <div class="item">
+                <div class="item right">
                     <div class="ui category small search">
                         <div class="ui icon input">
                             <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
@@ -90,14 +89,12 @@ $cakeDescription = 'Blog';
 
                 <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
 
-            </div>
 
         <?php endif; ?>
 
         <?php if (isset($loggedUser)): ?>
 
-            <div class="right menu">
-                <div class="item">
+                <div class="item right">
                     <div class="ui category small search">
                         <div class="ui icon input">
                             <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
@@ -112,7 +109,6 @@ $cakeDescription = 'Blog';
                         <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'profile-btn item']) ?>
                     </div>
                 </div>
-            </div>
         <?php endif; ?>
 
     </div>

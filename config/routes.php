@@ -56,7 +56,8 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect('/articles/add', ['controller' => 'Articles', 'action' => 'add']);
-    $routes->connect('/articles/edit', ['controller' => 'Articles', 'action' => 'edit']);
+    $routes->connect('/articles/edit/:name', ['controller' => 'Articles', 'action' => 'edit'],
+        ['pass' => ['name']]);
 
     $routes->connect('/admin/articles/', ['controller' => 'Articles', 'action' => 'adindex']);
     $routes->connect('/admin/comments/', ['controller' => 'Comments', 'action' => 'index']);
@@ -66,7 +67,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect(
-        '/article/*',
+        '/article/:name',
         ['controller' => 'Articles', 'action' => 'view'],
         ['pass' => ['name']]
     );

@@ -1,4 +1,9 @@
+<?php
 
+function spaceKiller($blackHole) {
+    return str_replace(" ", "-", $blackHole);
+}
+?>
 <div class="articles index large-9 medium-8 columns content">
     <h3><?= __('Articles') ?></h3>
     <table cellpadding="0" cellspacing="0" class="ui very basic table">
@@ -28,8 +33,8 @@
                 <td><button id="draft-<?= $article->id?>" class="ui mini red circular icon button pub-btn"><i class="icon remove"></i></button>
                     <?php endif; ?>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $article->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $article->id]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'Articles', 'action' => 'view', spaceKiller($article->title)]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', spaceKiller($article->title)]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $article->id], ['confirm' => __('Are you sure you want to delete # {0}?', $article->id)]) ?>
                 </td>
             </tr>
