@@ -23,9 +23,9 @@
                 <td><?= h($comment->created) ?></td>
                 <td><?= h($comment->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link('<i class="icon unhide"></i>View', ['action' => 'view', $comment->id], ['class' => 'ui small button', 'escape' => false]) ?>
-                    <?= $this->Html->link('<i class="icon edit"></i>Edit', ['action' => 'edit', $comment->id], ['class' => 'ui small button', 'escape' => false]) ?>
-                    <?= $this->Form->postLink('<i class="icon remove"></i>Delete', ['action' => 'delete', $comment->id],['class' => 'ui small button', 'escape' => false], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
+                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['action' => 'view', $comment->id], ['class' => 'ui icon circular button teal', 'escape' => false, 'title' => 'view']) ?>
+                    <?= $this->Html->link('<i class="icon edit large"></i>', ['action' => 'edit', $comment->id], ['class' => 'ui icon circular button yellow', 'escape' => false, 'title' => 'edit']) ?>
+                    <?= $this->Form->postLink('<i class="icon remove large"></i>', ['action' => 'delete', $comment->id],['class' => 'ui icon circular button orange', 'escape' => false, 'title' => 'delete'], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

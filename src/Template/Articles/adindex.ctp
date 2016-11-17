@@ -27,15 +27,16 @@ function spaceKiller($blackHole) {
                 <td><?= h($article->modified) ?></td>
                 <td><?= $article->has('user') ? $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) : '' ?></td>
                 <?php if ($article->published == 1): ?>
-                <td><button id="published-<?= $article->id?>" class="ui mini green circular icon button pub-btn"><i class="icon checkmark"></i></button>
+                <td><button id="published-<?= $article->id?>" class="ui green circular icon button pub-btn"><i class="icon checkmark large"></i></button>
                     <?php endif; ?>
                     <?php if ($article->published == 0): ?>
-                <td><button id="draft-<?= $article->id?>" class="ui mini red circular icon button pub-btn"><i class="icon remove"></i></button>
+                <td><button id="draft-<?= $article->id?>" class="ui red circular icon button pub-btn"><i class="icon remove large"></i></button>
                     <?php endif; ?>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Articles', 'action' => 'view', spaceKiller($article->title)]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', spaceKiller($article->title)]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $article->id], ['confirm' => __('Are you sure you want to delete # {0}?', $article->id)]) ?>
+
+                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['controller' => 'Articles', 'action' => 'view', spaceKiller($article->title)], ['class' => 'ui button icon circular teal', 'escape' => false, 'title' => 'view']) ?>
+                    <?= $this->Html->link('<i class="icon edit large"></i>', ['action' => 'edit', spaceKiller($article->title)], ['class' => 'ui button icon circular yellow', 'escape' => false, 'title' => 'edit']) ?>
+                    <?= $this->Form->postLink('<i class="icon remove large"></i>', ['action' => 'delete', $article->id], ['class' => 'ui button icon circular orange', 'escape' => false, 'title' => 'delete'], ['confirm' => __('Are you sure you want to delete # {0}?', $article->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

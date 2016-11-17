@@ -223,13 +223,12 @@ class ArticlesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
         if ($this->Articles->delete($article)) {
-            $this->redirect($this->referer());
-
             $this->Flash->success(__('The article has been deleted.'));
         } else {
             $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
 
+        return $this->redirect(['action' => 'adindex']);
     }
 
 

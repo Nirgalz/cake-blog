@@ -80,7 +80,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect(
-        '/user/*',
+        '/user/:name',
         ['controller' => 'Users', 'action' => 'view'],
         ['pass' => ['name']]
     );
