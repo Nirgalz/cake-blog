@@ -4,14 +4,10 @@
 
     <div class="ui grid">
         <div class="eight wide column">
-            <h4 class="ui top attached inverted header">une boite</h4>
+            <h4 class="ui top attached inverted header">A propose</h4>
             <div class="ui attached segment bottom">
                 <table class="ui selectable celled table">
                     <tbody>
-
-
-                        <tr><td >Article : </td></tr>
-
 
                     </tbody>
                 </table>
@@ -19,15 +15,13 @@
             </div>
         </div>
         <div class="eight wide column">
-            <h4 class="ui top attached inverted header">une deuxieme boite</h4>
+            <h4 class="ui top attached inverted header">Statistiques</h4>
             <div class="ui attached segment bottom">
                 <table class="ui selectable celled table">
                     <tbody>
 
-                        <tr><td>Article : </td></tr>
-
-
-                    </tbody>
+                            <tr><td ><?= count($articles)?> articles </td></tr>
+                                     </tbody>
                 </table>
 
             </div>

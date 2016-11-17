@@ -229,7 +229,7 @@ function nestedComments($childComments, $comment)
         <div class="ui attached segment bottom">
 
             <?php foreach ($tags as $tag) : ?>
-                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name, ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
+                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name . '  (' . count($tag->articles). ')', ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
 
 
             <?php endforeach; ?>
@@ -245,9 +245,8 @@ function nestedComments($childComments, $comment)
 
                 <?php foreach ($comments as $comment) : ?>
                     <tr>
-                        <td class="comment-btn" id="<?= spaceKiller($comment->article->title) ?>">Article
-                            : <?= $comment->article->title ?> - comment
-                            :<?= h($comment->body) ?></td>
+                        <td class="comment-btn" id="<?= spaceKiller($comment->article->title) ?>"><i class="ui icon file"></i>
+                             <?= $comment->article->title ?> </td>
                     </tr>
                 <?php endforeach; ?>
 

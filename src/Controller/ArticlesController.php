@@ -68,6 +68,14 @@ class ArticlesController extends AppController
 
     }
 
+    public function home() {
+
+        $articles = $this->Articles->find();
+
+        $this->set(compact('articles'));
+        $this->set('_serialize', ['articles']);    }
+
+
     public function adindex()
     {
 
