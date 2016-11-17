@@ -228,7 +228,7 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'adindex']);
+        return $this->redirect(['action' => 'index']);
     }
 
 
