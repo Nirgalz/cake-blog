@@ -135,14 +135,13 @@ $cakeDescription = 'Blog';
             var url = window.location.pathname;
             if (url.startsWith('/about')) {
                 var menuItem = $('#about-nav');
-            } else if (url.startsWith('/contact')) {
+            } else if (url.startsWith('/blog/contact')) {
                 var menuItem = $('#contact-nav');
-            } else  if (url.startsWith('/articles')) {
+            } else  if (url.startsWith('/blog/articles')) {
                 var menuItem = $('#blog-nav');
             } else  if (url.startsWith('/')) {
                 var menuItem = $('#home-nav');
             }
-
             menuItem.addClass('active');
         }
         activateNavMenu();

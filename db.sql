@@ -46,7 +46,7 @@ CREATE TABLE users
   role VARCHAR(20),
   created DATETIME,
   modified DATETIME,
-  photo VARCHAR(80),
+  photo VARCHAR(80) DEFAULT 'default_avatar.png',
   photo_dir VARCHAR(255)
 );
 
