@@ -132,8 +132,6 @@ class UsersController extends AppController
             $this->Users->save($article);
         }
 
-
-
     }
 
     public function register()
@@ -144,6 +142,10 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             $user->role = 'unconfirmed';
+            if (!isset($this->request->data['upload'])) {
+                $user->photo = 'default_avatar.png';
+                $user->photo_dir = 'webroot/files/Users/photo/';
+            }
 
             if ($this->Users->save($user)) {
                 $email = new Email('default');
@@ -175,10 +177,6 @@ class UsersController extends AppController
                 $this->Flash->success(__('Email confirmed, thanks for registering.'));
 
             }
-
-
-
-
     }
 
     /**

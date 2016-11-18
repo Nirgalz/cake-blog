@@ -67,6 +67,9 @@ class AppController extends Controller
         if (isset($user['role']) && $user['role'] === 'admin') {
             return true;
         }
+        if (isset($user['role']) && $user['role'] === 'unconfirmed') {
+            return false;
+        }
 
         // Default deny
         return false;
