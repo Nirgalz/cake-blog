@@ -77,15 +77,16 @@ $cakeDescription = 'Blog';
         <?= $this->Html->link('<i class="mail large icon"></i>Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb', 'escape' => false]) ?>
     </div>
 <div class="column menu ">
+
+    <div class="item right">
+        <i id="search-icon" class="search icon"></i>
+        <div class="ui category small search">
+            <div class="ui icon inverted transparent  input">
+                <input id="search-form" class="prompt" type="text" placeholder="Search the blog..." style="display: none">
+            </div>
+        </div>
+    </div>
         <?php if (!isset($loggedUser)): ?>
-                <div class="item right">
-                    <div class="ui category small search">
-                        <div class="ui icon input">
-                            <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
-                            <i class="search icon"></i>
-                        </div>
-                    </div>
-                </div>
 
                 <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
 
@@ -97,14 +98,7 @@ $cakeDescription = 'Blog';
 
         <?php if (isset($loggedUser)): ?>
 
-                <div class="item right">
-                    <div class="ui category small search">
-                        <div class="ui icon input">
-                            <input id="search-form" class="prompt" type="text" placeholder="Search the blog...">
-                            <i class="search icon"></i>
-                        </div>
-                    </div>
-                </div>
+
                 <div id="drop" class="ui simple dropdown item ">
                     <?= $loggedUser['username'] ?> <i class="dropdown icon"></i>
                     <div class="menu">
@@ -153,10 +147,25 @@ $cakeDescription = 'Blog';
         }
         activateNavMenu();
 
+        var searchForm = $('#search-form');
 
+        $('#search-icon').hover(function () {
+            $('#search-form').show('slow')
+        });
+
+        searchForm.mouseleave(function () {
+            if ($('#search-form').focus()) {
+                $('#search-form').focusout(function () {
+                    $('#search-form').hide('slow')
+                })
+            } else {
+                $('#search-form').hide('slow')
+
+            }
+        });
 
         //search form
-        $('#search-form').keypress(function (e) {
+        searchForm.keypress(function (e) {
             var search = $('#search-form').val();
             if (e.which == 13) {
                 window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "search"])?>' + '/' + search;
