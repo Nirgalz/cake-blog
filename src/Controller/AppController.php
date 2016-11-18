@@ -55,7 +55,7 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['index', 'view', 'display', 'blogindex', 'tagbox', 'commentbox', 'home']);
+        $this->Auth->allow(['index', 'view', 'display', 'blogindex', 'tagbox', 'commentbox', 'home', 'validation']);
 
         $this->set('loggedUser', $this->Auth->user());
     }
@@ -66,6 +66,9 @@ class AppController extends Controller
         // Admin can access every action
         if (isset($user['role']) && $user['role'] === 'admin') {
             return true;
+        }
+        if (isset($user['role']) && $user['role'] === 'unconfirmed') {
+            return false;
         }
 
         // Default deny

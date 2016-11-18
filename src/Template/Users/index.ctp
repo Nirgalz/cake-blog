@@ -30,6 +30,9 @@
                     <?php if ($user->role == 'guest'): ?>
                 <td><button id="guest-<?= $user->id?>" title="guest" class="ui olive icon button pub-btn"><i class="icon user large"></i></button>
                     <?php endif; ?>
+                    <?php if ($user->role == 'unconfirmed'): ?>
+                <td><button id="unconfirmed-<?= $user->id?>" title="unconfirmed" class="ui icon button pub-btn"><i class="icon users large"></i></button>
+                    <?php endif; ?>
                 <td class="actions">
                     <?= $this->Html->link('<i class="icon unhide large"></i>', ['action' => 'view', $user->username], ['class' => 'ui icon circular button teal', 'escape' => false, 'title' => 'view']) ?>
                     <?= $this->Html->link('<i class="icon edit large"></i>', ['action' => 'edit', $user->id], ['class' => 'ui icon circular button yellow', 'escape' => false, 'title' => 'edit']) ?>
