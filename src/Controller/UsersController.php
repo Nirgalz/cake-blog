@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -143,10 +143,14 @@ class UsersController extends AppController
 
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
-            $user->role = 'guest';
+            $user->role = 'unconfirmed';
 
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $email = new Email('default');
+                $email->to($user->email)
+                    ->subject('SiteNAme - please confirm your mail ')
+                    ->send('Hello, '.$user->username . '<br>'. 'Please confirm your mail by clicking this link : http://nicolash.simplon-epinal.tk/blog/validation/?email=' . $user->email);
+                $this->Flash->success(__('Please check your email for validation'));
 
                 return $this->redirect(['controller' => 'Articles', 'action' => 'blogindex']);
             } else {
@@ -155,8 +159,25 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+
+
+    }
+
+    public function validation() {
+
+
+            $user = $this->Users->find()->where(['email' => $this->request->query('email')])->first();
+            if ($user->role === 'unconfirmed' ) {
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $user->role = 'guest';
+                $this->Users->save($user);
+
+                $this->Flash->success(__('Email confirmed, thanks for registering.'));
+
+            }
+
+
+
 
     }
 

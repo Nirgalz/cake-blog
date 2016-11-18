@@ -63,6 +63,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/admin/comments/', ['controller' => 'Comments', 'action' => 'index']);
     $routes->connect('/admin/tags/', ['controller' => 'Tags', 'action' => 'index']);
     $routes->connect('/admin/users/', ['controller' => 'Users', 'action' => 'index']);
+    $routes->connect('/validation/*', ['controller' => 'Users', 'action' => 'validation']);
 
 
 
