@@ -87,12 +87,9 @@ $cakeDescription = 'Blog';
         </div>
     </div>
         <?php if (!isset($loggedUser)): ?>
+            <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
 
-                <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
-
-
-                <?= $this->Html->link('Register', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
-
+                <?= $this->Html->link('Log In', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
 
         <?php endif; ?>
 
