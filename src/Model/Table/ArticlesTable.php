@@ -46,7 +46,9 @@ class ArticlesTable extends Table
             'foreignKey' => 'user_id'
         ]);
         $this->hasMany('Comments', [
-            'foreignKey' => 'article_id'
+            'foreignKey' => 'article_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->belongsToMany('Tags', [
             'foreignKey' => 'article_id',

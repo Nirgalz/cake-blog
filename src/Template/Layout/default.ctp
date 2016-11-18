@@ -31,12 +31,16 @@ $cakeDescription = 'Blog';
         #dash {
             cursor: pointer;
         }
+        .column {
+            padding: 0!important;
+        }
     </style>
 </head>
 <body>
 <div class="ui left demo vertical inverted sidebar labeled icon menu">
+    <!--
     <?= $this->Html->link('<i class="home icon"></i>Dashboard', ['controller' => 'Pages', 'action' => 'display', 'dashboard'], ['class' => 'item', 'escape' => false]); ?>
-
+-->
     <?= $this->Html->link('<i class="add square icon"></i>Add Article', ['controller' => 'Articles', 'action' => 'add'], ['class' => 'item', 'escape' => false]) ?>
 
 
@@ -55,25 +59,24 @@ $cakeDescription = 'Blog';
 </div>
 <div class="pusher">
 
-    <div class="ui large menu stackable container inverted">
+    <div class="ui small menu stackable  inverted fluid three column grid ">
+        <div class="column menu ">
         <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
 
-            <a id="dash" class="item blue">Dashboard</a>
+            <a id="dash" class=" view-ui item"><i class="sidebar icon"></i> Menu</a>
         <?php endif; ?>
+        </div>
+        <div class="column menu ">
 
-        <?= $this->Html->link('Home', ['controller' => 'Articles', 'action' => 'home'], ['id' => 'home-nav', 'class' => 'item navb']) ?>
-
-        <?= $this->Html->link('Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb']) ?>
-
+        <?= $this->Html->link('<i class="home large icon"></i>Home', ['controller' => 'Articles', 'action' => 'home'], ['id' => 'home-nav', 'class' => 'item navb', 'escape' => false]) ?>
+        <?= $this->Html->link('<i class="file large icon"></i>Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb', 'escape' => false]) ?>
 <!--
         <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
 
 -->
-
-        <?= $this->Html->link('Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb']) ?>
-
-
-
+        <?= $this->Html->link('<i class="mail large icon"></i>Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb', 'escape' => false]) ?>
+    </div>
+<div class="column menu ">
         <?php if (!isset($loggedUser)): ?>
                 <div class="item right">
                     <div class="ui category small search">
@@ -110,7 +113,7 @@ $cakeDescription = 'Blog';
                     </div>
                 </div>
         <?php endif; ?>
-
+</div>
     </div>
 
 

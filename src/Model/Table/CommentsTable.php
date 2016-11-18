@@ -57,7 +57,9 @@ class CommentsTable extends Table
         ]);
         $this->hasMany('SubComments', [
             'className' => 'Comments',
-            'foreignKey' => 'comment_id'
+            'foreignKey' => 'comment_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
         $this->hasMany('Files', [
             'foreignKey' => 'comment_id'
