@@ -37,7 +37,7 @@ function nestedComments($childComments, $comment, $loggedUser)
                     </div>
                     <div class="actions">
                         <a id="toggle-comment-' . $childComment->id . '" class="reply add-comment"><i class="ui icon reply"></i>Reply</a>
-                        '. authEditComment($childComment, $loggedUser).'
+                        ' . authEditComment($childComment, $loggedUser) . '
                         
                     </div>
                 </div>
@@ -243,10 +243,15 @@ function nestedComments($childComments, $comment, $loggedUser)
 
         <h4 class="ui top attached inverted header"><i class="tags icon"></i>Filter by Tags</h4>
         <div class="ui attached segment bottom">
-
             <?php foreach ($tags as $tag) : ?>
-                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name . '  (' . count($tag->articles) . ')', ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
-
+                <?php
+                $countArticles = 0;
+                foreach ($tag->articles as $article) {
+                    if ($article->published == 1) {
+                        $countArticles++;
+                    }
+                } ?>
+                <?= $this->Html->link('<i class="icon  tag"></i>  ' . $tag->name . '  (' . $countArticles . ')', ['controller' => 'Articles', 'action' => 'blogindex', $tag->name], ['class' => 'ui button large icon', 'escape' => false]) ?>
 
             <?php endforeach; ?>
 

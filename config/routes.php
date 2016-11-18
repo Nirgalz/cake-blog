@@ -67,7 +67,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 
     $routes->connect(
-        '/article/:name',
+        '/article/*',
         ['controller' => 'Articles', 'action' => 'view'],
         ['pass' => ['name']]
     );
