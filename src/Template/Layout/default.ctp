@@ -69,7 +69,7 @@ $cakeDescription = 'Blog';
         <div class="column menu ">
 
         <?= $this->Html->link('<i class="home large icon"></i>Home', ['controller' => 'Articles', 'action' => 'home'], ['id' => 'home-nav', 'class' => 'item navb', 'escape' => false]) ?>
-        <?= $this->Html->link('<i class="file large icon"></i>Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb', 'escape' => false]) ?>
+        <?= $this->Html->link('<i class="newspaper large icon"></i>Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb', 'escape' => false]) ?>
 <!--
         <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
 
