@@ -1,5 +1,23 @@
 <?php
-function nestedComments($childComments, $comment)
+
+function spaceKiller($blackHole)
+{
+    return str_replace(" ", "-", $blackHole);
+}
+
+function authEditComment($childComment, $loggedUser)
+{
+
+    if (isset($loggedUser)) {
+        if ($loggedUser['role'] === 'admin' || $loggedUser['id'] === $childComment->user_id) {
+            return '<a id="toggle-edit-' . $childComment->id . '" class="reply edit-comment"><i class="ui icon edit"></i>Edit</a>
+                        <a onclick="submitDelete(' . $childComment->id . ')" id="delete-' . $childComment->id . '" class="reply delete-comment"><i class="ui icon remove">Delete</i></a>';
+        }
+    } else return '';
+}
+
+
+function nestedComments($childComments, $comment, $loggedUser)
 {
     echo '<div class="comments">';
     foreach ($childComments as $childComment) {
@@ -7,18 +25,20 @@ function nestedComments($childComments, $comment)
             echo '
             <div class="comment">
                 <a class="avatar">
-                    <img src="blog/files/Users/photo/' . $childComment->user->photo . '">
+                    <img src="/blog/files/Users/photo/' . $childComment->user->photo . '">
                 </a>
                 <div class="content">
-                    <a class="author">' . $childComment->user->username . '</a>
+                    <a class="author">' . spaceKiller($childComment->user->username) . '</a>
                     <div class="metadata">
                         <span class="date">' . $childComment->created . '</span>
                     </div>
                     <div class="text">
-                        <p>' . $childComment->body . '</p>
+                        <p>' . h($childComment->body) . '</p>
                     </div>
                     <div class="actions">
-                        <a id="toggle-comment-' . $childComment->id . '" class="reply add-comment">Reply</a>
+                        <a id="toggle-comment-' . $childComment->id . '" class="reply add-comment"><i class="ui icon reply"></i>Reply</a>
+                        ' . authEditComment($childComment, $loggedUser) . '
+                        
                     </div>
                 </div>
             </div>
@@ -30,12 +50,22 @@ function nestedComments($childComments, $comment)
                         <i class="icon edit"></i> Add Reply
                     </div>
                 </form>
+                <form id="form-edit-' . $childComment->id . '" class="ui reply form hideit"
+                                              style="display: none;">
+                                            <div class="field">
+                                                <textarea id="edit-' . $childComment->id . '">' . h($childComment->body) . '</textarea>
+                                            </div>
+                                            <div onclick="submitEdit(' . $childComment->id . ')"
+                                                 class="ui blue labeled submit icon button">
+                                                <i class="icon edit"></i> Edit Comment
+                                            </div>
+                                        </form>
       
         ';
             foreach ($childComments as $child) {
                 if ($child->comment_id == $childComment->id) {
 
-                    nestedComments($childComments, $childComment);
+                    nestedComments($childComments, $childComment, $loggedUser);
                     break;
                 }
             }
@@ -48,7 +78,6 @@ function nestedComments($childComments, $comment)
 ;
 ?>
 
-
 <h3 class="ui top attached inverted header">
     <?= $article->title ?>
     <p class="pull-right">
@@ -57,17 +86,20 @@ function nestedComments($childComments, $comment)
 </h3>
 <div class="ui attached segment">
     <div class="ui comments">
+
         <div class="comment">
             <a class="avatar">
                 <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
             </a>
             <div class="content">
-                <a class="author"><?= $this->Html->link($article->user->username, ['controller' => 'Users', 'action' => 'view', $article->user->id]) ?></a>
+                <a class="author"><?= spaceKiller($article->user->username); ?></a>
 
             </div>
         </div>
+
         <br>
     </div>
+
 
 </div>
 <div class="ui attached segment">
@@ -75,40 +107,41 @@ function nestedComments($childComments, $comment)
 </div>
 
 <div class="ui  attached segment">
-
     <?php if (!empty($article->comments)): ?>
 
-        <button id="toggle-comment-<?= $article->id ?>" class="ui  button view-comment">
-            <i class="icon comments"></i>
-            <?= count($article->comments) ?> Comments
+        <button id="toggle-comment-<?= $article->id ?>" class="ui icon circular  button view-comment">
+            <i class="icon large comments"></i>
+            <?= count($article->comments) ?>
         </button>
     <?php endif; ?>
-    <button id="toggle-article-<?= $article->id ?>" class="add-comment ui button">
-        <i class="icon reply"></i> Reply</button>
 
+    <button id="toggle-article-<?= $article->id ?>" class="add-comment ui icon button circular"
+            title="Comment">
+        <i class="icon large reply"></i>
+    </button>
 
-    <div class="ui icon top left pointing dropdown button pull-right">
-        <i class="share alternate icon"></i> Share
+    <div class="ui icon circular top left pointing dropdown button pull-right">
+        <i class="share large alternate icon"></i>
         <div class="menu">
             <!--facebook shit needs api key-->
             <!-- <div class="ui facebook button item sharer button"
                                  data-sharer="facebook"
-                                 data-url="http://mysite<?/*= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])*/?>">
+                                 data-url="http://mysite<? /*= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])*/ ?>">
                                 <i class="facebook icon"></i>
                                 Facebook
                             </div>-->
 
-            <div class="ui twitter button item sharer button"
-                 data-sharer="twitter" data-title="<?= $article->title?>"
-                 data-hashtags="<?php foreach ($article->tags as $tag):?><?= $tag->name?>,<?php endforeach;?>"
-                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>">
+            <div class="ui fluid twitter button item sharer button"
+                 data-sharer="twitter" data-title="<?= $article->title ?>"
+                 data-hashtags="<?php foreach ($article->tags as $tag): ?><?= $tag->name ?>,<?php endforeach; ?>"
+                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id]) ?>">
                 <i class="twitter icon"></i>
                 Twitter
             </div>
-            <div class="ui mail button item sharer button"
-                 data-sharer="email" data-title="<?= $article->title?>"
-                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id])?>"
-                 data-subject="<?= $article->title?>">
+            <div class="ui fluid mail button item sharer button"
+                 data-sharer="email" data-title="<?= $article->title ?>"
+                 data-url="http://mysite<?= $this->Url->build(["controller" => "Articles", "action" => "view", $article->id]) ?>"
+                 data-subject="<?= $article->title ?>">
                 <i class="mail icon"></i>
                 Email
             </div>
@@ -129,24 +162,34 @@ function nestedComments($childComments, $comment)
 
 
     <?php if (!empty($article->comments)) : ?>
-        <div id="show-comment-<?= $article->id ?>" class="ui comments" >
-            <h3 class="ui dividing header">Comments</h3>
+        <div id="show-comment-<?= $article->id ?>" class="ui hidethat comments">
+            <h3 class="ui dividing header"></h3>
             <?php foreach ($article->comments as $comment) : ?>
                 <?php if ($comment->comment_id == null) : ?>
                     <div class="comment">
                         <a class="avatar">
-                            <?= $this->Html->image('../files/Users/photo/' . $article->user->photo) ?>
+                            <?= $this->Html->image('../files/Users/photo/' . $comment->user->photo) ?>
                         </a>
                         <div class="content">
-                            <a class="author"><?= $comment->user->username ?></a>
+                            <a class="author"><?= spaceKiller($comment->user->username); ?></a>
                             <div class="metadata">
                                 <span class="date"><?= $comment->created ?></span>
                             </div>
                             <div class="text">
-                                <p><?= $comment->body ?></p>
+                                <p><?= h($comment->body) ?></p>
                             </div>
                             <div class="actions">
-                                <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment">Reply</a>
+                                <a id="toggle-comment-<?= $comment->id ?>" class="reply add-comment"><i
+                                        class="ui icon reply"></i>Reply</a>
+                                <?php if (isset($loggedUser)): ?>
+                                    <?php if ($loggedUser['id'] === $comment->user_id || $loggedUser['role'] === 'admin'): ?>
+                                        <a id="toggle-edit-<?= $comment->id ?>"
+                                           class="reply edit-comment"><i
+                                                class="ui icon edit"></i>Edit</a>
+                                        <?= $this->Form->postLink('<i class="icon remove"></i>Delete', ['controller' => 'Comments', 'action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id), 'class' => '', 'escape' => false, 'title' => 'delete']) ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+
                             </div>
                         </div>
                         <form id="form-comment-<?= $comment->id ?>" class="ui reply form hideit"
@@ -159,14 +202,24 @@ function nestedComments($childComments, $comment)
                                 <i class="icon edit"></i> Add Reply
                             </div>
                         </form>
-                        <?php nestedComments($childComments, $comment) ?>
+                        <form id="form-edit-<?= $comment->id ?>" class="ui reply form hideit"
+                              style="display: none;">
+                            <div class="field">
+                                                <textarea
+                                                    id="edit-<?= $comment->id ?>"><?= h($comment->body) ?></textarea>
+                            </div>
+                            <div onclick="submitEdit(<?= $comment->id ?>)"
+                                 class="ui blue labeled submit icon button">
+                                <i class="icon edit"></i> Edit Comment
+                            </div>
+                        </form>
+                        <?php nestedComments($childComments, $comment, $loggedUser) ?>
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
-
 
 <style>
     /*******************************
@@ -193,6 +246,7 @@ function nestedComments($childComments, $comment)
         $('.ui.dropdown').dropdown({
             on: 'hover'
         });
+
 
 
         //toggles add comment forms

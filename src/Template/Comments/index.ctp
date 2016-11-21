@@ -1,3 +1,10 @@
+<?php
+
+function spaceKiller($blackHole)
+{
+    return str_replace(" ", "-", $blackHole);
+} ?>
+
 
     <h3 class="ui top header attached inverted"><?= __('Comments') ?></h3>
     <div class="ui attached segment">
@@ -21,7 +28,7 @@
                 <td><?= h($comment->created) ?></td>
                 <td><?= h($comment->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['action' => 'view', $comment->id], ['class' => 'ui icon circular button teal', 'escape' => false, 'title' => 'view']) ?>
+                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['controller' => 'Articles', 'action' => 'view', spaceKiller($comment->article->title)], ['id' => 'article-'.spaceKiller($comment->article->title),'class' => 'ui icon circular button teal comment-btn', 'escape' => false, 'title' => 'view']) ?>
                     <?= $this->Html->link('<i class="icon edit large"></i>', ['action' => 'edit', $comment->id], ['class' => 'ui icon circular button yellow', 'escape' => false, 'title' => 'edit']) ?>
                     <?= $this->Form->postLink('<i class="icon remove large"></i>', ['action' => 'delete', $comment->id],['confirm' => __('Are you sure you want to delete # {0}?', $comment->id), 'class' => 'ui icon circular button orange', 'escape' => false, 'title' => 'delete']) ?>
                 </td>
@@ -38,3 +45,13 @@
         <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>
+
+
+<script>
+    //view article links
+    $('.comment-btn').on('click', function (event) {
+        event.preventDefault();
+        var id = $(this).attr('id').split('-');
+        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[1];
+    });
+</script>
