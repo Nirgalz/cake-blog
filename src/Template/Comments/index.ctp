@@ -28,7 +28,7 @@ function spaceKiller($blackHole)
                 <td><?= h($comment->created) ?></td>
                 <td><?= h($comment->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['controller' => 'Articles', 'action' => 'view', spaceKiller($comment->article->title)], ['id' => 'article-'.spaceKiller($comment->article->title),'class' => 'ui icon circular button teal comment-btn', 'escape' => false, 'title' => 'view']) ?>
+                    <?= $this->Html->link('<i class="icon unhide large"></i>', ['controller' => 'Articles', 'action' => 'view', spaceKiller($comment->article->title)], ['id' => spaceKiller($comment->article->title),'class' => 'ui icon circular button teal comment-btn', 'escape' => false, 'title' => 'view']) ?>
                     <?= $this->Html->link('<i class="icon edit large"></i>', ['action' => 'edit', $comment->id], ['class' => 'ui icon circular button yellow', 'escape' => false, 'title' => 'edit']) ?>
                     <?= $this->Form->postLink('<i class="icon remove large"></i>', ['action' => 'delete', $comment->id],['confirm' => __('Are you sure you want to delete # {0}?', $comment->id), 'class' => 'ui icon circular button orange', 'escape' => false, 'title' => 'delete']) ?>
                 </td>
@@ -51,7 +51,7 @@ function spaceKiller($blackHole)
     //view article links
     $('.comment-btn').on('click', function (event) {
         event.preventDefault();
-        var id = $(this).attr('id').split('-');
-        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id[1];
+        var id = $(this).attr('id');
+        window.location = '<?= $this->Url->build(["controller" => "Articles", "action" => "view"])?>' + '/' + id;
     });
 </script>
