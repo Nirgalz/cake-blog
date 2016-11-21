@@ -173,7 +173,7 @@ class UsersController extends AppController
                 $user = $this->Users->patchEntity($user, $this->request->data);
                 $user->role = 'guest';
                 $this->Users->save($user);
-
+                $this->redirect($this->redirect(['controller' => 'Articles', 'action' => 'blogindex']));
                 $this->Flash->success(__('Email confirmed, thanks for registering.'));
 
             }

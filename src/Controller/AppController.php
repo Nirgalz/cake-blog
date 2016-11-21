@@ -55,7 +55,7 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['index', 'view', 'display', 'blogindex', 'tagbox', 'commentbox', 'home', 'validation']);
+        $this->Auth->allow(['index', 'view', 'display', 'blogindex', 'search', 'home', 'validation']);
 
         $this->set('loggedUser', $this->Auth->user());
     }

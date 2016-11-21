@@ -51,8 +51,9 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->connect('/', ['controller' => 'Articles', 'action' => 'home']);
     $routes->connect('/about', ['controller' => 'Pages', 'action' => 'display', 'about']);
-
     $routes->connect('/articles/', ['controller' => 'Articles', 'action' => 'blogindex']);
+    $routes->connect('/users/changerole', ['controller' => 'Articles', 'action' => 'changerole']);
+
 
 
     $routes->connect('/articles/add', ['controller' => 'Articles', 'action' => 'add']);
