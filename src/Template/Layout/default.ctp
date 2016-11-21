@@ -31,8 +31,9 @@ $cakeDescription = 'Blog';
         #dash {
             cursor: pointer;
         }
+
         .column {
-            padding: 0!important;
+            padding: 0 !important;
         }
     </style>
 </head>
@@ -59,41 +60,43 @@ $cakeDescription = 'Blog';
 </div>
 <div class="pusher">
 
-    <div class="ui small menu stackable  inverted fluid three column grid ">
+    <div class="ui small menu inverted fluid three column grid stackable">
         <div class="column menu ">
-        <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
+            <?php if (isset($loggedUser) && $loggedUser['role'] === 'admin') : ?>
 
-            <a id="dash" class=" view-ui item"><i class="sidebar icon"></i> Menu</a>
-        <?php endif; ?>
+                <a id="dash" class=" view-ui item"><i class="sidebar icon"></i> Menu</a>
+            <?php endif; ?>
         </div>
-        <div class="column menu ">
+        <div class="column menu grid stackable">
 
-        <?= $this->Html->link('<i class="home large icon"></i>Home', ['controller' => 'Articles', 'action' => 'home'], ['id' => 'home-nav', 'class' => 'item navb', 'escape' => false]) ?>
-        <?= $this->Html->link('<i class="newspaper large icon"></i>Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb', 'escape' => false]) ?>
-<!--
+
+            <?= $this->Html->link('<i class="home large icon"></i>Home', ['controller' => 'Articles', 'action' => 'home'], ['id' => 'home-nav', 'class' => 'item navb', 'escape' => false]) ?>
+            <?= $this->Html->link('<i class="newspaper large icon"></i>Articles', ['controller' => 'Articles', 'action' => 'blogindex'], ['id' => 'blog-nav', 'class' => 'item navb', 'escape' => false]) ?>
+            <!--
         <?= $this->Html->link('About', ['controller' => 'Pages', 'action' => 'display', 'about'], ['id' => 'about-nav', 'class' => 'item navb']) ?>
 
 -->
-        <?= $this->Html->link('<i class="mail large icon"></i>Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb', 'escape' => false]) ?>
-    </div>
-<div class="column menu ">
-
-    <div class="item right">
-        <i id="search-icon" class="search icon"></i>
-        <div class="ui category small search">
-            <div class="ui icon inverted transparent  input">
-                <input id="search-form" class="prompt" type="text" placeholder="Search the blog..." style="display: none">
-            </div>
+            <?= $this->Html->link('<i class="mail large icon"></i>Contact', ['controller' => 'Contact', 'action' => 'index'], ['id' => 'contact-nav', 'class' => 'item navb', 'escape' => false]) ?>
         </div>
-    </div>
-        <?php if (!isset($loggedUser)): ?>
-            <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
+        <div class="column menu grid stackable">
+
+            <div class="item right">
+                <i id="search-icon" class="search icon"></i>
+                <div class="ui category small search">
+                    <div class="ui icon inverted transparent  input">
+                        <input id="search-form" class="prompt" type="text" placeholder="Search the blog..."
+                               style="display: none">
+                    </div>
+                </div>
+            </div>
+            <?php if (!isset($loggedUser)): ?>
+                <?= $this->Html->link('Sign Up', ['controller' => 'Users', 'action' => 'register'], ['class' => 'item']) ?>
 
                 <?= $this->Html->link('Log In', ['controller' => 'Users', 'action' => 'login'], ['class' => 'item']) ?>
 
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if (isset($loggedUser)): ?>
+            <?php if (isset($loggedUser)): ?>
 
 
                 <div id="drop" class="ui simple dropdown item ">
@@ -103,8 +106,8 @@ $cakeDescription = 'Blog';
                         <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'profile-btn item']) ?>
                     </div>
                 </div>
-        <?php endif; ?>
-</div>
+            <?php endif; ?>
+        </div>
     </div>
 
 
@@ -134,13 +137,14 @@ $cakeDescription = 'Blog';
                 var menuItem = $('#about-nav');
             } else if (url.startsWith('/blog/contact')) {
                 var menuItem = $('#contact-nav');
-            } else  if (url.startsWith('/blog/articles')) {
+            } else if (url.startsWith('/blog/articles')) {
                 var menuItem = $('#blog-nav');
-            } else  if (url.startsWith('/')) {
+            } else if (url.startsWith('/')) {
                 var menuItem = $('#home-nav');
             }
             menuItem.addClass('active');
         }
+
         activateNavMenu();
 
         var searchForm = $('#search-form');

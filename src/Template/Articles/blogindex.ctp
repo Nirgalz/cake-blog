@@ -239,7 +239,7 @@ function nestedComments($childComments, $comment, $loggedUser)
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-sm12">
+    <div class="col-md-4 col-sm-12">
 
         <h4 class="ui top attached inverted header"><i class="tags icon"></i>Filter by Tags</h4>
         <div class="ui attached segment bottom">
