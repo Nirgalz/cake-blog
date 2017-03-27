@@ -98,15 +98,18 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
-                $picture = $this->Upload->getFile($this->request->data['upload'],'avatar', false);
-                $this->request->data['upload'] = $picture;
+                if (isset($this->request->data['upload'])) {
+                    $picture = $this->Upload->getFile($this->request->data['upload'], 'avatar', false);
+                    $this->request->data['upload'] = $picture;
 
-                $file = $this->Users->Files->patchEntity($file, $this->request->data);
-                $file->name = $picture;
-                $file->user_id = $user->id;
+                    $file = $this->Users->Files->patchEntity($file, $this->request->data);
+                    $file->name = $picture;
+                    $file->user_id = $user->id;
 
-                if ($this->Users->Files->save($file)) {
-                    return $this->redirect($this->referer());
+                    if ($this->Users->Files->save($file)) {
+                        return $this->redirect($this->referer());
+                    }
+
                 }
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -151,7 +154,7 @@ class UsersController extends AppController
                 $email = new Email('default');
                 $email->to($user->email)
                     ->subject('SiteNAme - please confirm your mail ')
-                    ->send('Hello, '.$user->username . '<br>'. 'Please confirm your mail by clicking this link : http://nicolash.simplon-epinal.tk/blog/validation/?email=' . $user->email);
+                    ->send('Hello, ' . $user->username . '<br>' . 'Please confirm your mail by clicking this link : http://nicolash.simplon-epinal.tk/blog/validation/?email=' . $user->email);
                 $this->Flash->success(__('Please check your email for validation'));
 
                 return $this->redirect(['controller' => 'Articles', 'action' => 'blogindex']);
@@ -165,18 +168,19 @@ class UsersController extends AppController
 
     }
 
-    public function validation() {
+    public function validation()
+    {
 
 
-            $user = $this->Users->find()->where(['email' => $this->request->query('email')])->first();
-            if ($user->role === 'unconfirmed' ) {
-                $user = $this->Users->patchEntity($user, $this->request->data);
-                $user->role = 'guest';
-                $this->Users->save($user);
-                $this->redirect($this->redirect(['controller' => 'Articles', 'action' => 'blogindex']));
-                $this->Flash->success(__('Email confirmed, thanks for registering.'));
+        $user = $this->Users->find()->where(['email' => $this->request->query('email')])->first();
+        if ($user->role === 'unconfirmed') {
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user->role = 'guest';
+            $this->Users->save($user);
+            $this->redirect($this->redirect(['controller' => 'Articles', 'action' => 'blogindex']));
+            $this->Flash->success(__('Email confirmed, thanks for registering.'));
 
-            }
+        }
     }
 
     /**
@@ -191,19 +195,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
-/*
-        $status = $this->ImageTool->resize(array(
-            'input' => $this->request->data('file'),
-            'output' => $output_file,
-            'width' => 600,
-            'height' => 600,
-            'mode' => 'fit',
-            'paddings' => false,
-            'afterCallbacks' => array(
-                array('watermark', array('watermark' => $watermark_file, 'position' => 'bottom-right')),
-                array('unsharpMask'),
-            )
-        ));*/
+        /*
+                $status = $this->ImageTool->resize(array(
+                    'input' => $this->request->data('file'),
+                    'output' => $output_file,
+                    'width' => 600,
+                    'height' => 600,
+                    'mode' => 'fit',
+                    'paddings' => false,
+                    'afterCallbacks' => array(
+                        array('watermark', array('watermark' => $watermark_file, 'position' => 'bottom-right')),
+                        array('unsharpMask'),
+                    )
+                ));*/
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
